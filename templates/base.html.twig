@@ -20,9 +20,13 @@
         {% endblock %}
     </head>
     <body>
+
     {% include 'includes/header.html.twig' %}
+    <main>
         {% block body %}{% endblock %}
+    </main>
         <script src="{{ asset('assets/js/bootstrap.bundle.js') }}"></script>
     {% include 'includes/footer.html.twig' %}
+
     </body>
 </html>

@@ -58,11 +58,11 @@ header{
     transform: scale3d(1,1,1);
 }
 .menu-1 a::before{
-    background: #FD8B7C;
-    transform-origin: 50% 50%;
+    background: #6B4900;
+    transform-origin: 10% 10%;
 }
 .menu-1 a:hover::before{
-    transform-origin: 20% 50%;
+    transform-origin: 20% 20%;
 }
 
 /* FIN MENU Y */
@@ -106,6 +106,13 @@ footer{
 }
 
 
+/*////////////////////////////////////// Button Yellow Color////////////////////////////////////////////////////*/
+
+.yellow-btn{
+    background-color: #FFC928;
+    border-color: #ffc15a;
+
+}
 
 /*//////////////////////////////////////////ANIMATED BADGE///////////////////////////////////////////*/
 .badge-profile:hover {
@@ -132,4 +139,12 @@ footer{
         -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
         box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
     }
+}
+
+
+/*///////////////////////////////////////////MAIN ///////////////////////*/
+
+main{
+
+    min-height: 590px;
 }
