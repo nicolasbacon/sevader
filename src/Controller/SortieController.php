@@ -34,7 +34,8 @@ class SortieController extends AbstractController
 
 
         return $this->render('sortie/list.html.twig', [
-            'sorties' => $sorties
+            'sorties' => $sorties,
+            'filterForm' => $filterForm->createView()
         ]);
     }
 
