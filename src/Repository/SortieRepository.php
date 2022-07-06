@@ -49,10 +49,10 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findAllOrderedBySites(): array
     {
-        return $this->createQueryBuilder('s')
-            ->addOrderBy('s.campus','ASC')
-            ->getQuery()
-            ->getResult();
+
+         $qb = $this->createQueryBuilder('s');
+            $qb->andWhere('s.dateHeureDebut > CURRENT_TIMESTAMP()');
+          return  $qb->getQuery()->getResult();
     }
     public function findFiltered(EtatRepository $etatRepository, mixed $filters)
     {   $qb = $this->createQueryBuilder('s');
@@ -86,11 +86,11 @@ class SortieRepository extends ServiceEntityRepository
         }
         if($filters['ended']){
             $qb->andWhere('s.etat = :ended')
-                ->setParameter('ended', $etatRepository->findOneBy(['Passée'])  );
+                ->setParameter('ended', $etatRepository->findOneBy(['libelle'=>'Passée'])  );
         }
 
 
-        return $qb->getQuery();
+        return $qb->getQuery()->getResult();
     }
 
 //    /**

@@ -5,6 +5,42 @@
 {% endblock %}
 
 {% block body %}
+    <h2>Afficher une sortie</h2>
+    <p>Nom de la sortie : {{ sortie.nom|capitalize }}</p>
+    <p>Date et heure de la sortie : {{ sortie.dateHeureDebut|date("d/m/Y h:i") }}</p>
+    <p>Date limite d'inscription : {{ sortie.dateLimiteInscription|date("d/m/Y") }}</p>
+    <p>Nombre de places : {{ sortie.nbInscriptionMax }}</p>
+    <p>Durée : {{ sortie.duree }} minutes</p>
+    <label for="description">Description et infos : </label>
+    <textarea id="description">{{ sortie.infosSortie }}</textarea>
+    <p>Ville organisatrice : {{ sortie.campus.nom|title }}</p>
+    <p>Lieu : {{ sortie.lieu.nom|title }}</p>
+    <p>Rue : {{ sortie.lieu.rue }}</p>
+    <p>Code postal : {{ sortie.lieu.ville.codePostal }}</p>
+    <p>Ville : {{ sortie.lieu.ville.nom|title }}</p>
+    <p>Ville : {{ sortie.lieu.latitude }}</p>
+    <p>Ville : {{ sortie.lieu.longitude }}</p>
+    <div>
+        <h3>Liste des participants inscrits</h3>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for participant in sortie.participants %}
+                <tr>
+                    <th scope="row">{{ participant.email|capitalize }}</th>
+                    {# TODO mettre le lien pour afficher le profil user #}
+                    <td><a href="">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}
 

@@ -16,38 +16,44 @@ class FiltreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('site',EntityType::class,[
-                'class'=> Campus::class,
+            ->add('site', EntityType::class, [
+                'class' => Campus::class,
                 'choice_label' => 'nom'
             ])
-            ->add('textSearch',SearchType::class,[
-                'label'=> 'Le nom de la sortie contient : ',
-                'attr' => [ 'placeholder'=> 'Recherche'
-                ]
+            ->add('textSearch', SearchType::class, [
+                'label' => 'Le nom de la sortie contient : ',
+                'attr' => ['placeholder' => 'Recherche'
+                ],
+                'required' => false
             ])
-            ->add('startDate', DateType::class,[
-                'label'=> 'Entre le ',
+            ->add('startDate', DateType::class, [
+                'label' => 'Entre le ',
                 'widget' => 'single_text',
-                'html5' => true
+                'html5' => true,
+                'required' => false
             ])
-            ->add('endDate', DateType::class,[
-                'label'=> 'et le ',
+            ->add('endDate', DateType::class, [
+                'label' => 'et le ',
                 'widget' => 'single_text',
-                'html5' => true
+                'html5' => true,
+                'required' => false
             ])
-            ->add('organizer', CheckboxType::class,[
-                'label' => 'Sorties dont je suis l\'organisateur.rice'
+            ->add('organizer', CheckboxType::class, [
+                'label' => 'Sorties dont je suis l\'organisateur.rice',
+                'required' => false
             ])
-            ->add('registered', CheckboxType::class,[
-                'label' => 'Sorties auxquelles je suis inscrit.e'
+            ->add('registered', CheckboxType::class, [
+                'label' => 'Sorties auxquelles je suis inscrit.e',
+                'required' => false
             ])
-            ->add('unregistered', CheckboxType::class,[
-                'label' => 'Sorties auxquelles je ne suis pas inscrit.e'
+            ->add('unregistered', CheckboxType::class, [
+                'label' => 'Sorties auxquelles je ne suis pas inscrit.e',
+                'required' => false
             ])
-            ->add('ended', CheckboxType::class,[
-                'label' => 'Sorties passées'
-            ])
-        ;
+            ->add('ended', CheckboxType::class, [
+                'label' => 'Sorties passées',
+                'required' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

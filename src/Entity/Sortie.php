@@ -45,7 +45,7 @@ class Sortie
     private $infosSortie;
 
 
-    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sortiesInscrit')]
+    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sortiesInscrit', cascade: ['persist'])]
     private $participants;
 
     #[ORM\ManyToOne(targetEntity: Participant::class, inversedBy: 'sortiesOrganisateur')]
