@@ -1,0 +1,13 @@
+<div class="navbar-nav">
+    <a class="nav-item nav-link active" href="#">ACCUEIL</a>
+    <a class="nav-item nav-link" href="#">VILLES</a>
+    <a class="nav-item nav-link" href="#">SITES</a>
+    {% if is_granted ("ROLE_USER") and is_granted ("ROLE_ADMIN") %}
+    <a class="nav-item nav-link" href="#">MON PROFILE</a>
+    {% endif %}
+
+    <a class="nav-item nav-link" href="{{ path('app_login') }}">SE CONNECTER</a>
+    {% if is_granted ("ROLE_USER") and is_granted ("ROLE_ADMIN") %}
+    <a class="nav-item nav-link" href="{{ path('app_logout') }}">SE DECONNECTER</a>
+    {% endif %}
+</div>
