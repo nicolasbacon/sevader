@@ -8,16 +8,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ participant.id }}</td>
-            </tr>
-            <tr>
                 <th>Email</th>
                 <td>{{ participant.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ participant.roles ? participant.roles|json_encode : '' }}</td>
             </tr>
             <tr>
                 <th>Password</th>
@@ -35,13 +27,9 @@
                 <th>Telephone</th>
                 <td>{{ participant.telephone }}</td>
             </tr>
-            <tr>
-                <th>Actif</th>
-                <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
-            </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_participant_controller2_edit', {'id': participant.id}) }}">Modifier mon profil</a>
-
+{% if app.user.id == participant.id %}
+    <a href="{{ path('participant_editer_profil', {'id': participant.id}) }}">Modifier mon profil</a>
+{% endif %}
 {% endblock %}

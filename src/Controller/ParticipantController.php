@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/participant', name: 'participant_')]
@@ -19,24 +20,40 @@ class ParticipantController extends AbstractController
 {
 
     #[Route('/{id}', name: 'profil', methods: ['GET'])]
-    public function profil(Participant $participant): Response
+    public function profil(int $id, ParticipantRepository $participantRepository): Response
     {
+        if (!$this->getUser())
+            throw new AccessDeniedException("Vous devez etre connecter!");
+
+        $participant = $participantRepository->find($id);
         return $this->render('participant/show.html.twig', [
             'participant' => $participant,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'editer_profil', methods: ['GET', 'POST'])]
-    public function edit(Request $request, int $id, ParticipantRepository $participantRepository): Response
+    public function edit(Request $request, int $id, ParticipantRepository $participantRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
-        if($this->getUser()->getId() != $id)
-        throw new AccessDeniedException("Vous ne pouvez pas modifer un profil qui n'est pas le votre");
+        if (!$this->getUser())
+            throw new AccessDeniedException("Vous devez etre connecter!");
+            if ($this->getUser()->getId() != $id)
+                throw new AccessDeniedException("Vous ne pouvez pas modifer un profil qui n'est pas le votre");
+
+
+
         $participant = $participantRepository->find($id);
 
         $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $participant->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $participant,
+                    $form->get('plainPassword')->getData()
+                )
+            );
             $participantRepository->add($participant, true);
 
             return $this->redirectToRoute('participant_profil', [], Response::HTTP_SEE_OTHER);
