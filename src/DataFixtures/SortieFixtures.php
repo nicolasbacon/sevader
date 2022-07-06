@@ -25,7 +25,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         foreach ($listCampus as $campus) {
             for ($i = 0; $i < 5; $i++) {
                 $sortie = new Sortie();
-                $sortie->setNom($faker->title);
+                $sortie->setNom($faker->sentence(6, true));
                 $sortie->setDateHeureDebut($faker->dateTimeThisMonth);
                 $sortie->setDuree($faker->numberBetween(0,600));
                 $sortie->setDateLimiteInscription($faker->dateTimeBetween('-3 months', $sortie->getDateHeureDebut()));
@@ -44,7 +44,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
 
                 // Lieu
                 $sortie->setLieu($faker->randomElement($listLieu));
-
+                $manager->persist($sortie);
             }
         }
         $manager->flush();
