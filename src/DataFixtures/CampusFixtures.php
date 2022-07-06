@@ -10,14 +10,14 @@ class CampusFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $site = ["SAINT HERBLAIN", "CHARTRES DE BRETAGNE", "LA ROCHE SUR YON"];
-
-        for ($i = 0; $i < 3; $i++) {
-         $campus = new Campus();
-         $campus->setNom($site[$i]);
-         $manager->persist($campus);
-        }
-
-        $manager->flush();
+//        $site = ["SAINT HERBLAIN", "CHARTRES DE BRETAGNE", "LA ROCHE SUR YON"];
+//
+//        for ($i = 0; $i < 3; $i++) {
+//         $campus = new Campus();
+//         $campus->setNom($site[$i]);
+//         $manager->persist($campus);
+//        }
+//
+//        $manager->flush();
     }
 }

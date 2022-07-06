@@ -5,6 +5,60 @@
 {% endblock %}
 
 {% block body %}
+    <table>
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date et heure de la sortie</th>
+            <th>Date limite inscription</th>
+            <th>Nombre de places</th>
+            <th>Durée</th>
+            <th>Description et infos</th>
+            <th>Ville organisatrice</th>
+            <th>Lieu</th>
+            <th>Rue</th>
+            <th>Code Postal</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+        </tr>
+        <tr>
+            <td>{{ sortie.nom }}</td>
+            <td>{{ sortie.dateHeureDebut |format_datetime(locale='fr') }}</td>
+            <td>{{ sortie.dateLimiteInscription |date("m/d/Y") }}</td>
+            <td>{{ sortie.nbInscriptionMax }}</td>
+            <td>{{ sortie.duree }}</td>
+            <td>{{ sortie.infosSortie }}</td>
+            <td>{{ sortie.lieu.ville.nom }}</td>
+            <td>{{ sortie.lieu.nom }}</td>
+            <td>{{ sortie.lieu.rue }}</td>
+            <td>{{ sortie.lieu.ville.codePostal }}</td>
+            <td>{{ sortie.lieu.latitude }}</td>
+            <td>{{ sortie.lieu.longitude }}</td>
+        </tr>
+    </table>
+
+    <h2>Liste des participants inscrits :</h2>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+        <table class="table table-bordered table-striped mb-0">
+            <thead>
+            <tr>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for participant in sortie.participants %}
+                <tr>
+                    <td>{{ participant.nom }}</td>
+                    <td>{{ participant.prenom }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{{ url('participant_inscription', {id: sortie.id }) }}">S'inscrire</a>
+    <a href="{{ url('participant_desinscription', {id: sortie.id }) }}">Se desinscrire</a>
 
 {% endblock %}
 

@@ -40,7 +40,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $actif;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
     private $sortiesInscrit;
 
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
