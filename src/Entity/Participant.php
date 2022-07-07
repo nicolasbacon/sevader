@@ -11,7 +11,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Il existe deja un compte avec cette email')]
+#[UniqueEntity(fields: ['pseudo'], message: 'Il existe deja un compte avec ce pseudo')]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -49,6 +50,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'participants')]
     #[ORM\JoinColumn(nullable: false)]
     private $campus;
+
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    private $pseudo;
 
     public function __construct()
     {
@@ -256,6 +260,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->campus = $campus;
         $campus->addParticipant($this);
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
         return $this;
     }
 }

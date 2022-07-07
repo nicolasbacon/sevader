@@ -18,17 +18,18 @@ class ParticipantType extends AbstractType
         $builder
             ->add('email')
             //->add('roles')
-                ->add('actualPassword', PasswordType::class, [
-                    'mapped' => false,
-                    'label' => 'Mot de passe actuel :'
+            ->add('actualPassword', PasswordType::class, [
+                'mapped' => false,
+                'label' => 'Mot de passe actuel :',
+                'required' => false
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'mapped' => false,
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
                 'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
-                'first_options'  => ['label' => 'Mot de passe :'],
+                'required' => false,
+                'first_options' => ['label' => 'Mot de passe :'],
                 'second_options' => ['label' => 'Confirmation :'],
             ])
 //            ->add('plainPassword', PasswordType::class, [
@@ -50,6 +51,7 @@ class ParticipantType extends AbstractType
 //            ])
             ->add('nom')
             ->add('prenom')
+            ->add('pseudo')
             ->add('telephone')
             //->add('actif')
             //->add('sortiesInscrit')

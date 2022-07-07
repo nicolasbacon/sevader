@@ -75,7 +75,9 @@ class ParticipantController extends AbstractController
     #[Route('/inscription/{id}', name: 'inscription')]
     public function inscription(Sortie $sortie, InscriptionService $inscriptionService, EntityManagerInterface $entityManager): Response
     {
-        $inscriptionService->inscrireParticipant($sortie, $this->getUser(), $entityManager);
+        $error = $inscriptionService->inscrireParticipant($sortie, $this->getUser(), $entityManager);
+        if ($error)
+            $this->addFlash('error', $error);
 
         return $this->render('participant/index.html.twig', [
             'controller_name' => 'ParticipantController',
