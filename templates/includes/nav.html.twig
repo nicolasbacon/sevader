@@ -3,7 +3,7 @@
     <a class="nav-item nav-link" href="#">VILLES</a>
     <a class="nav-item nav-link" href="#">SITES</a>
     {% if is_granted ("ROLE_USER") or is_granted ("ROLE_ADMIN") %}
-    <a class="nav-item nav-link" href="{{ url('participant_profil', {'id':app.user.id}) }}">MON PROFIL</a>
+    <a class="nav-item nav-link" href="{{ url('participant_editer_profil') }}">MON PROFIL</a>
     {% endif %}
 
     {% if not is_granted ("ROLE_USER") or is_granted ("ROLE_ADMIN") %}
