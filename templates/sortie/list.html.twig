@@ -49,13 +49,13 @@
                     {% else %}
                          <a href="">S'inscrire</a>
                     {% endif %}
-                    {% if app.user == sortie.organisateur %}
+                    {% if sortie.organisateur == app.user %}
                         {% if sortie.etat == 'Créée' %}
                             <a href="">Modifier</a>
                              <a href="">Publier</a>
                         {% endif %}
                         {% if ( sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
-                             <a href="index.html.twig">Annuler</a>
+                             <a href="{{ path('sortie_cancel',{'id': sortie.id }) }}">Annuler</a>
                         {% endif %}
                     {% endif %}
                 </td>

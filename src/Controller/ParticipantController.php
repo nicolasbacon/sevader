@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Entity\Sortie;
-use App\Form\ParticipantType;
+use App\Form\LieuType;
 use App\Repository\ParticipantRepository;
 use App\Service\InscriptionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,7 +40,7 @@ class ParticipantController extends AbstractController
             throw new AccessDeniedException("Vous devez etre connecter!");
 
 
-        $form = $this->createForm(ParticipantType::class, $participant);
+        $form = $this->createForm(LieuType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -79,7 +79,7 @@ class ParticipantController extends AbstractController
         if ($error)
             $this->addFlash('error', $error);
 
-        return $this->render('participant/index.html.twig', [
+        return $this->render('participant/new.html.twig', [
             'controller_name' => 'ParticipantController',
         ]);
     }
@@ -89,7 +89,7 @@ class ParticipantController extends AbstractController
     {
         $inscriptionService->desinscrireParticipant($sortie, $this->getUser(), $entityManager);
 
-        return $this->render('participant/index.html.twig', [
+        return $this->render('participant/new.html.twig', [
             'controller_name' => 'ParticipantController',
         ]);
     }

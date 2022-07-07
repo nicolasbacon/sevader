@@ -35,28 +35,25 @@
 
 {% block extraJs %}
     <script>
-        /*  //récupération des boutons
-          let buttons = Array.from(document.getElementsByClassName('likeButton'));
-          console.log(buttons);
+        //récupération des boutons
+        let ville = document.getElementsByClassName('ville');
 
-          //boucle sur les boutons
-          buttons.forEach(function (elem, index) {
-              //ajout d'un évènement de type click
-              elem.addEventListener("click", function () {
 
-                  //préparation des données à envoyer
-                  let data = {serie_id: {# {{ show.id }} #}, like : elem.value }
+            //ajout d'un évènement de type click
+        ville.addEventListener("click", function () {
+
+                //préparation des données à envoyer
+                let data = {ville_id: {{ ville.id }}, like : ville.value }
                 console.log(data);
 
                 //utilisation de fetch pour lancer une requête asynchrone
-                fetch("{# {{ path('api_serie_update_like') }} #}",{method:'POST',body: JSON.stringify(data)})
+              /*  fetch("{{ path('api_serie_update_like') }}",{method:'POST',body: JSON.stringify(data)})
                     .then(function (response){
                         return response.json();
                     }).then(function (data){
                     document.getElementById("nbLikes").innerText = data.nbLikes
-                })
-            })
-        })
-*/
+                })*/
+            }
+        )
     </script>
 {% endblock %}
