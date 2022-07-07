@@ -6,16 +6,18 @@
 
         {# DATE ET NOM A DROITE Y #}
         <br>
+
+
     {% if is_granted ("ROLE_USER") or is_granted ("ROLE_ADMIN") %}
            <div class="badge-profile row">
                <div class="col-md-4">
                     <img class="profile-picture" src="{{ asset('assets/img/profile.png') }}" alt="">
                </div>
                <div class="col-md-4">
-                   <p>Participant : Joel Mammène</p>
+                   <p>Participant : {{ app.user.nom }}</p>
                </div>
                <div class="col-md-4">
-                   <p>Date du jour : 15/03/1984</p>
+                   <p>Date du jour : {{ "now"|date("m/d/Y") }}</p>
                </div>
            </div>
     {% endif %}

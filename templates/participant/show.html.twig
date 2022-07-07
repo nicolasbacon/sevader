@@ -3,33 +3,53 @@
 {% block title %}Participant{% endblock %}
 
 {% block body %}
-    <h1>Participant</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Email</th>
-                <td>{{ participant.email }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ participant.password }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+
+            </div>
+            <div class="col-sm">
+                <h1>Participant</h1>
+            <table class="table profile">
+                <tbody>
+                    <tr>
+                        <th class="fa-solid fa-envelope"> Email</th>
+                        <td>{{ participant.email }}</td>
+                    </tr>
+                    <tr>
+                        <th class="fa-solid fa-lock"> Password</th>
+                        <td>{{ participant.password }}</td>
+                    </tr>
+                    <tr>
+                <th class="fa-solid fa-user-graduate"> Nom</th>
                 <td>{{ participant.nom }}</td>
             </tr>
             <tr>
-                <th>Prenom</th>
+                <th class="fa-solid fa-user-graduate"> Prenom</th>
                 <td>{{ participant.prenom }}</td>
             </tr>
             <tr>
-                <th>Telephone</th>
+                <th class="fa-solid fa-square-phone"> Telephone</th>
                 <td>{{ participant.telephone }}</td>
             </tr>
         </tbody>
     </table>
-{% if app.user.id == participant.id %}
-    <a href="{{ path('participant_editer_profil') }}">Modifier mon profil</a>
+    {% if app.user.id == participant.id %}
+
+        <button class="btn btn-lg btn-primary yellow-btn" type="submit">
+        <a href="{{ path('participant_editer_profil', {'id': participant.id}) }}">Modifier mon profil</a>
+        </button>
+            </div>
+
+            <div class="col-sm">
+
+            </div>
+        </div>
+    </div>
+
+
+
 {% endif %}
 {% endblock %}

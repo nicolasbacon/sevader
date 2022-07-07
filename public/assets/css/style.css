@@ -10,10 +10,6 @@ header{
     border-bottom: solid;
     border-color: #ffc15a;
 }
-
-
-
-
 /* ///////////////////////////////////////////////// MENU Y ////////////////////////////////////////*/
 .navbar-nav {
     margin-left: auto;
@@ -111,6 +107,14 @@ footer{
 .yellow-btn{
     background-color: #FFC928;
     border-color: #ffc15a;
+    color: white; !important;
+
+}
+
+.yellow-btn:hover{
+    background-color: #B09765;
+    border-color: #B09765;
+
 
 }
 
@@ -147,4 +151,34 @@ footer{
 main{
 
     min-height: 590px;
+}
+
+
+/*///////////////////////////////////////////PROFILE /////////////////////////////*/
+
+.profile{
+
+    font-weight: bold;
+    background-color: #ffc15a;
+    border-radius: 20px;
+}
+
+
+/*////////////////////////////////////////////////AHREF ///////////////////////////////*/
+
+a:link { text-decoration: none; }
+
+
+a:visited { text-decoration: none; }
+
+
+a:hover { text-decoration: none;
+color: white;
+}
+
+
+a:active { text-decoration: none; }
+
+a{
+    color: white;
 }
