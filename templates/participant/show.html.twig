@@ -30,6 +30,6 @@
         </tbody>
     </table>
 {% if app.user.id == participant.id %}
-    <a href="{{ path('participant_editer_profil', {'id': participant.id}) }}">Modifier mon profil</a>
+    <a href="{{ path('participant_editer_profil') }}">Modifier mon profil</a>
 {% endif %}
 {% endblock %}
