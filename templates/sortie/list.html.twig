@@ -45,17 +45,17 @@
                         <a href="{{ path('sortie_sortie', {'id': sortie.id }) }}">Afficher</a>
                     {% endif %}
                     {% if app.user in sortie.participants %}
-                        - <a href="">Se désister</a>
+                         <a href="">Se désister</a>
                     {% else %}
-                        - <a href="">S'inscrire</a>
+                         <a href="">S'inscrire</a>
                     {% endif %}
                     {% if app.user == sortie.organisateur %}
                         {% if sortie.etat == 'Créée' %}
                             <a href="">Modifier</a>
-                            - <a href="">Publier</a>
+                             <a href="">Publier</a>
                         {% endif %}
                         {% if ( sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
-                            - <a href="index.html.twig">Annuler</a>
+                             <a href="index.html.twig">Annuler</a>
                         {% endif %}
                     {% endif %}
                 </td>

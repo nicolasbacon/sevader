@@ -27,7 +27,7 @@ class SortieController extends AbstractController
         if ($filterForm->isSubmitted()) {
             $filters = $filterForm->getData();
 
-            $sorties =$sortieRepository-> findFiltered($etatRepository, $filters);
+            $sorties = $sortieRepository->findFiltered($etatRepository, $filters);
         } else {
             $sorties = $sortieRepository->findAllOrderedBySites();
         }
@@ -45,7 +45,7 @@ class SortieController extends AbstractController
         $sortie = $sortieRepository->find($id);
 
         if (!$sortie) {
-            throw $this->createNotFoundException('Oups, cette sortie n\'existe pas');
+            throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
         }
 
         return $this->render('sortie/sortie.html.twig', [
@@ -63,21 +63,29 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            if ($sortieForm->get('enregistrer')) {
+            //mettre l'état de la sortie créée à créée ou ouverte en fonction du submit utilisé
+            if ($sortieForm->get('enregistrer')->isClicked()) {
                 $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Créée']));
-            } elseif ($sortieForm->get('publier')) {
-                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Publiée']));
+            } elseif ($sortieForm->get('publier')->isClicked()) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
             }
-            if ($sortieForm->get('inscriptionAuto')) {
+
+            //ajouter l'organisateur aux participants s'il le souhaite
+            if ($sortieForm->get('inscriptionAuto')->getData()) {
                 $sortie->addParticipant($participantRepository->find($this->getUser()->getId()));
             }
-                $sortie->setOrganisateur($participantRepository->find($this->getUser()->getId()));
+
+            //setter le user connecté en tant qu'organisateur et setter le campus du user connecté en tant
+            //que campus de la sortie
+            $sortie->setOrganisateur($participantRepository->find($this->getUser()->getId()));
+            $sortie->setCampus($this->getUser()->getCampus());
 
             $sortieRepository->add($sortie, true);
 
-            if ($sortieForm->get('enregistrer')) {
+            //ajouter les messages flash en fonction du submit cliqué
+            if ($sortieForm->get('enregistrer')->isClicked()) {
                 $this->addFlash('success', 'Sortie créée');
-            } elseif ($sortieForm->get('publier')) {
+            } elseif ($sortieForm->get('publier')->isClicked()) {
                 $this->addFlash('success', 'Sortie publiée');
             }
             return $this->redirectToRoute('sortie_sortie', [

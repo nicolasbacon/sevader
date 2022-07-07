@@ -61,26 +61,26 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('campus', $filters['site']);
         }
         if($filters['textSearch'] != null){
-            $qb->andWhere('s.nom = :nom')
+            $qb->andWhere('LOWER(s.nom) LIKE LOWER(:nom)')
                 ->setParameter('nom', "%{$filters['textSearch']}%");
         }
         if($filters['startDate'] != null){
-            $qb->andWhere('s.dateHeureDebut = :startDate')
+            $qb->andWhere('s.dateHeureDebut >= :startDate')
                 ->setParameter('startDate', $filters['startDate']);
         }
         if($filters['endDate']!= null){
-            $qb->andWhere('s.dateHeureDebut = :endDate')
+            $qb->andWhere('s.dateHeureDebut <= :endDate')
                 ->setParameter('endDate', $filters['endDate']);
         }
         if($filters['organizer']){
             $qb->andWhere('s.organisateur = :organizer')
                 ->setParameter('organizer', $this->security->getUser() );
         }
-        if($filters['registered']){
+        if($filters['subscription'] == 'registered'){
             $qb->andWhere(':registered MEMBER OF s.participants')
                 ->setParameter('registered', $this->security->getUser() );
         }
-        if($filters['unregistered']){
+        if($filters['subscription'] == 'unregistered'){
             $qb->andWhere(':unregistered NOT MEMBER OF s.participants')
                 ->setParameter('unregistered', $this->security->getUser() );
         }

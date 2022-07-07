@@ -6,7 +6,9 @@ use App\Entity\Campus;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -42,13 +44,16 @@ class FiltreType extends AbstractType
                 'label' => 'Sorties dont je suis l\'organisateur.rice',
                 'required' => false
             ])
-            ->add('registered', CheckboxType::class, [
-                'label' => 'Sorties auxquelles je suis inscrit.e',
-                'required' => false
-            ])
-            ->add('unregistered', CheckboxType::class, [
-                'label' => 'Sorties auxquelles je ne suis pas inscrit.e',
-                'required' => false
+            ->add('subscription', ChoiceType::class, [
+                'label' => 'Inscription à la sortie',
+                'choices' => [
+                    'Je suis inscrit' => 'registered',
+                    'Je ne suis pas inscrit' => 'unregistered',
+                ],
+                'required'=> false,
+                'placeholder' => 'toutes les sorties',
+                'expanded' => true
+
             ])
             ->add('ended', CheckboxType::class, [
                 'label' => 'Sorties passées',

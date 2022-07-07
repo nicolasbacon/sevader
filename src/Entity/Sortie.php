@@ -52,7 +52,6 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private $organisateur;
 
-    #[Assert\NotBlank]
     #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private $campus;
