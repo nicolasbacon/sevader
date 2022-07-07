@@ -3,8 +3,23 @@
 {% block title %}Edit Participant{% endblock %}
 
 {% block body %}
-    <h1>Modifier mon profil</h1>
 
-    {{ include('participant/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <div class="container-fluid edit-profile">
+        <br>
+
+        <div class="row">
+            <div class="col-2 edit-form">
+
+                <h4>Modifier mon profil</h4>
+                {{ include('participant/_form.html.twig', {'button_label': 'Modifier'}) }}
+                <br>
+            <div class="col-sm"></div>
+            <div class="col-sm"></div>
+            </div>
+    </div>
+        <br>
+    </div>
+
 
 {% endblock %}

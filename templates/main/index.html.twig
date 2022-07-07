@@ -10,9 +10,13 @@
 
     {% if is_granted ("ROLE_USER") or is_granted ("ROLE_ADMIN") %}
            <div class="badge-profile row">
+
+
+
                <div class="col-md-4">
                     <img class="profile-picture" src="{{ asset('assets/img/profile.png') }}" alt="">
                </div>
+
                <div class="col-md-4">
                    <p>Participant : {{ app.user.nom }}</p>
                </div>
