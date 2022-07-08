@@ -6,6 +6,9 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -44,7 +47,6 @@ class Sortie
     #[Assert\Length(max: 4000,maxMessage: 'Cette description est trop longue') ]
     #[ORM\Column(type: 'text')]
     private $infosSortie;
-
 
     #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sortiesInscrit', cascade: ['persist'])]
     private $participants;
@@ -96,7 +98,7 @@ class Sortie
         return $this->dateHeureDebut;
     }
 
-    public function setDateHeureDebut(\DateTime $dateHeureDebut): self
+    public function setDateHeureDebut(?\DateTime $dateHeureDebut): self
     {
         $this->dateHeureDebut = $dateHeureDebut;
 
@@ -120,7 +122,7 @@ class Sortie
         return $this->dateLimiteInscription;
     }
 
-    public function setDateLimiteInscription(\DateTimeInterface $dateLimiteInscription): self
+    public function setDateLimiteInscription(?\DateTimeInterface $dateLimiteInscription): self
     {
         $this->dateLimiteInscription = $dateLimiteInscription;
 

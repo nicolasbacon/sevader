@@ -2,18 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Campus;
 use App\Entity\Lieu;
-use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Entity\Ville;
-use App\Repository\CampusRepository;
-use App\Repository\LieuRepository;
-use App\Repository\ParticipantRepository;
-use App\Repository\VilleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -21,6 +16,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 
@@ -45,23 +43,18 @@ class SortieType extends AbstractType
             ])
             ->add('ville', EntityType::class, [
                 'mapped' => false,
-                'label' => 'Ville : ',
                 'class' => Ville::class,
                 'choice_label' => 'nom',
-                'query_builder' => function (VilleRepository $vr) {
-                    return $vr->createQueryBuilder('v')
-                        ->orderBy('v.nom', 'ASC');
-                }
+                'placeholder' => 'Ville',
+                'label' => 'Ville',
+                'required' => false
             ])
-            ->add('lieu', EntityType::class, [
-                'label' => 'Lieu : ',
-                'class' => Lieu::class,
-                'choice_label' => 'nom',
-                'query_builder' => function (LieuRepository $lr) {
-                    return $lr->createQueryBuilder('l')
-                        ->orderBy('l.nom', 'ASC');
-                }
+
+            ->add('lieu', ChoiceType::class, [
+                'placeholder' => 'Lieu (Choisir une ville)',
+                'required' => false
             ])
+
             ->add('dateHeureDebut', DateTimeType::class, [
                 'label' => 'Date et heure de la sortie : ',
                 'date_widget' => 'single_text',
@@ -96,6 +89,28 @@ class SortieType extends AbstractType
                 'attr' => ['class' => 'save'],
                 'label' => 'Publier'
             ]);
+
+        $formModifier = function (FormInterface $form, Ville $villes = null) {
+            $lieux = null === $villes ? [] : $villes->getLieux();
+
+            $form->add('lieu', EntityType::class, [
+                'class' => Lieu::class,
+                'choices' => $lieux,
+                'required' => false,
+                'choice_label' => 'nom',
+                'placeholder' => 'Lieu (Choisir une ville)',
+                'attr' => ['class' => 'custom-select'],
+                'label' => 'Lieu'
+            ]);
+        };
+
+        $builder->get('ville')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                $ville = $event->getForm()->getData();
+                $formModifier($event->getForm()->getParent(), $ville);
+            }
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
