@@ -10,15 +10,26 @@
 
     {% if is_granted ("ROLE_USER") or is_granted ("ROLE_ADMIN") %}
            <div class="badge-profile row">
+
+
+
                <div class="col-md-4">
                     <img class="profile-picture" src="{{ asset('assets/img/profile.png') }}" alt="">
                </div>
+
                <div class="col-md-4">
                    <p>Participant : {{ app.user.nom }}</p>
                </div>
                <div class="col-md-4">
                    <p>Date du jour : {{ "now"|date("m/d/Y") }}</p>
                </div>
+
+{#
+               #}{# RENDRE LE BADGE CLICKABLE #}{#
+               <a href="#" class="stretched-link"></a>#}
+
+
+
            </div>
     {% endif %}
 
