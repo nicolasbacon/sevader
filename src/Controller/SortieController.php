@@ -54,6 +54,50 @@ class SortieController extends AbstractController
         ]);
     }
 
+    #[Route('/edit/{id}', name: 'edit', requirements: ["id" => "\d+"])]
+    public function edit(Request $request, EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id): Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if (!$sortie) {
+            throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
+        }
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            //mettre l'état de la sortie créée à créée ou ouverte en fonction du submit utilisé
+            if ($sortieForm->get('enregistrer')->isClicked()) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Créée']));
+            } elseif ($sortieForm->get('publier')->isClicked()) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
+            } elseif ($sortieForm->get('supprimer')->isClicked()) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Archivée']));
+            }
+
+
+            $sortieRepository->add($sortie, true);
+
+            //ajouter les messages flash en fonction du submit cliqué
+            if ($sortieForm->get('enregistrer')->isClicked()) {
+                $this->addFlash('success', 'Sortie créée');
+            } elseif ($sortieForm->get('publier')->isClicked()) {
+                $this->addFlash('success', 'Sortie publiée');
+            }elseif ($sortieForm->get('supprimer')->isClicked()) {
+                $this->addFlash('success', 'Sortie supprimée');
+            }
+
+
+
+        }
+        return $this->render('sortie/edit.html.twig', [
+            'sortie' => $sortie,
+            'sortieForm'=> $sortieForm->createView()
+        ]);
+    }
+
     #[Route('/new', name: 'new')]
     public function new(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, ParticipantRepository $participantRepository): Response
     {
