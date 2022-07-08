@@ -67,11 +67,15 @@ header{
 /*///////////////////////////////// PROFILE HOME STICKER/////////////////////////*/
 
 .badge-profile{
-    width: 300px;
+    width: 373px;
     margin-left: 75%;
     font-weight: 600;
     background-color: #ffc15a;
     border-radius: 30px;
+    font-size: 0.8em;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
 }
 
 /*//////////////////////////////////////////FOOTER Y///////////////////////////////////////////*/
@@ -100,6 +104,13 @@ footer{
     border-radius: 50px;
     margin: 4px 0px 0px 0px;
 }
+
+.profile-picture:hover{
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
+
+
 
 
 /*////////////////////////////////////// Button Yellow Color////////////////////////////////////////////////////*/
