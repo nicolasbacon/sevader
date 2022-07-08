@@ -1,4 +1,23 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+
+    {{ form_start(form) }}
+    {{ form_row(form.email, { 'attr': {'class':'email form-control'}}) }}
+
+    {{ form_row(form.actualPassword, { 'attr': {'class':'actualPassword form-control'}}) }}
+
+
+
+    {# .first and .second may vary in your use - see the note below #}
+    {{ form_row(form.plainPassword.first, { 'attr': {'class':'plainPassword form-control'}}) }}
+    {{ form_row(form.plainPassword.second, { 'attr': {'class':'plainPassword form-control'}}) }}
+
+
+    {{ form_row(form.nom, { 'attr': {'class':'nom form-control'}}) }}
+
+    {{ form_row(form.prenom, { 'attr': {'class':'prenom form-control'}}) }}
+
+    {{ form_row(form.telephone, { 'attr': {'class':'telephone form-control'}}) }}
+    <br>
+    <button class="btn btn-primary yellow-btn">{{ button_label|default('Save') }}</button>
+    <br>
+    {{ form_end(form) }}
+

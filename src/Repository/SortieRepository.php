@@ -61,7 +61,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('campus', $filters['site']);
         }
         if($filters['textSearch'] != null){
-            $qb->andWhere('LOWER(s.nom) LIKE LOWER(:nom)')
+            $qb->andWhere('s.nom LIKE LOWER(:nom)')
                 ->setParameter('nom', "%{$filters['textSearch']}%");
         }
         if($filters['startDate'] != null){

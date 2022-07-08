@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\AnnulerSortieType;
 use App\Form\FiltreType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
@@ -39,7 +40,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/sortie/{id}', name: 'sortie')]
+    #[Route('/sortie/{id}', name: 'sortie', requirements: ["id" => "\d+"])]
     public function sortie(SortieRepository $sortieRepository, int $id): Response
     {
         $sortie = $sortieRepository->find($id);
@@ -98,5 +99,32 @@ class SortieController extends AbstractController
         return $this->render('sortie/new.html.twig', [
             'sortieForm' => $sortieForm->createView()
         ]);
+    }
+
+    #[Route('/cancel/{id}', name: 'cancel', requirements: ["id" => "\d+"])]
+    public function cancel(Request $request, EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id): Response
+    {
+        $sortie = $sortieRepository->find($id);
+        $annulerSortieForm = $this->createForm(AnnulerSortieType::class, $sortie);
+
+        $annulerSortieForm->handleRequest($request);
+
+
+        if (!$sortie) {
+            throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
+        }
+
+        if ($annulerSortieForm->isSubmitted()) {
+            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulée']));
+
+        }
+
+        $sortieRepository->add($sortie, true);
+
+        return $this->redirectToRoute('sortie_list', [
+            'sortie' => $sortie,
+            'annulerSortieForm' => $annulerSortieForm->createView()
+        ]);
+
     }
 }

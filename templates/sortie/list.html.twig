@@ -27,8 +27,13 @@
             <tr>
                 <th scope="row">{{ sortie.nom|capitalize }}</th>
                 <td>{{ sortie.dateHeureDebut|date('d/m/Y h:i') }}</td>
+                {% if not (sortie.etat.libelle == 'Annulée') %}
                 <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
                 <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
+                {% else %}
+                    <td>Sortie annulée</td>
+                    <td>Sortie annulée</td>
+                {% endif %}
                 <td>{{ sortie.etat.libelle }}</td>
                 <td>
                     {% if app.user in sortie.participants %}
@@ -44,19 +49,21 @@
                     {% if (sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
                         <a href="{{ path('sortie_sortie', {'id': sortie.id }) }}">Afficher</a>
                     {% endif %}
+                    {% if not (sortie.etat.libelle == 'Annulée') %}
                     {% if app.user in sortie.participants %}
                          <a href="">Se désister</a>
                     {% else %}
                          <a href="">S'inscrire</a>
                     {% endif %}
-                    {% if app.user == sortie.organisateur %}
+                    {% if sortie.organisateur == app.user %}
                         {% if sortie.etat == 'Créée' %}
                             <a href="">Modifier</a>
                              <a href="">Publier</a>
                         {% endif %}
                         {% if ( sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
-                             <a href="index.html.twig">Annuler</a>
+                             <a href="{{ path('sortie_cancel',{'id': sortie.id }) }}">Annuler</a>
                         {% endif %}
+                    {% endif %}
                     {% endif %}
                 </td>
             </tr>
