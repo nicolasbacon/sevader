@@ -68,7 +68,7 @@ header{
 
 .badge-profile{
     width: 373px;
-    margin-left: 75%;
+    margin-left: 68%;
     font-weight: 600;
     background-color: #ffc15a;
     border-radius: 30px;
@@ -271,7 +271,7 @@ color: #402e32;
 
 
 .resultat-recherche{
-    background-color: #C39855;
+    background-color: #ffc15a;
     margin: 0px 4px 38px 109px;
     font-family: 'Manrope', sans-serif;
 }
@@ -282,6 +282,8 @@ color: #402e32;
     background-color: #2c3034; !important;
     color: #fff3cd;
     margin: 76px 0px 0px 65px;
+    height: 23%;
+    width: 50%;
 }
 .btn-home-search:hover{
     color: darkkhaki;
@@ -299,9 +301,54 @@ justify-content: space-evenly;
 }
 
 
+/*//////////////////////////////////////////////////BOTTOM HOME BUTTON///////////////////////////*/
 
 
+.btn-home-bottom{
+    background-color: #2c3034; !important;
+    color: #fff3cd;
+    height: 146%;
+    margin: 0 0 0 57px;
 
+}
+.btn-home-bottom:hover{
+    color: darkkhaki;
+    background-color: #6b4900;
+}
+
+
+/*//////////////////////////////////////////AFFICHER SORTIE TITRE /////////////////////////////*/
+
+.sortie-container{
+    font-family: 'Manrope', sans-serif;
+}
+
+
+/*////////////////////////////////////////////BUTTON AFFICHER SORTIE///////////////////*/
+
+.btn-sortie{
+    background-color: #2c3034; !important;
+    color: #fff3cd;
+    height: 146%;
+
+
+}
+.btn-sortie:hover{
+    color: darkkhaki;
+    background-color: #6b4900;
+}
+
+.list-group-item{
+    background-color: #fff3cd;
+    border-radius: 8px;
+}
+
+
+/*////////////////////////////////////////////////////AFFICHER SORTIE BACKGROUND//////////////////////////*/
+
+.sortie-background{
+    background-color: #ffc15a;
+}
 
 
 

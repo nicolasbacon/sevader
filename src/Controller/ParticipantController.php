@@ -33,6 +33,20 @@ class ParticipantController extends AbstractController
         ]);
     }
 
+    #[Route('/participant/{id}', name: 'participant', requirements: ["id" => "\d+"])]
+    public function participant(ParticipantRepository $participantRepository, int $id): Response
+    {
+        $participant = $participantRepository->find($id);
+
+        if (!$participant) {
+            throw $this->createNotFoundException("Oups, ce participant n'existe pas");
+        }
+
+        return $this->render('participant/participant.html.twig', [
+            'participant' => $participant,
+        ]);
+    }
+
     #[Route('/edit', name: 'editer_profil', methods: ['GET', 'POST'])]
     public function edit(Request $request, ParticipantRepository $participantRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {

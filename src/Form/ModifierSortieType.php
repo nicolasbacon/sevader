@@ -20,21 +20,9 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Security;
 
-class SortieType extends AbstractType
+class ModifierSortieType extends AbstractType
 {
-    private $security;
-
-    /**
-     * @param $security
-     */
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -75,12 +63,6 @@ class SortieType extends AbstractType
             ->add('infosSortie', TextareaType::class, [
                 'label' => 'Descriptions et infos : '
             ])
-            ->add('inscriptionAuto', CheckboxType::class, [
-                'label' => 'Voulez-vous vous inscrire à la sortie ? ',
-                'data' => true,
-                'mapped' => false,
-                'required' => false
-            ])
             ->add('enregistrer', SubmitType::class, [
                 'attr' => ['class' => 'submit'],
                 'label' => 'Enregistrer'
@@ -89,7 +71,11 @@ class SortieType extends AbstractType
                 'attr' => ['class' => 'submit'],
                 'label' => 'Publier'
             ])
-        ;
+            ->add('supprimer', SubmitType::class, [
+                'attr' => ['class' => 'submit'],
+                'label' => 'Supprimer'
+            ])
+            ;
 
         $formModifier = function (FormInterface $form, Ville $villes = null) {
             $lieux = null === $villes ? [] : $villes->getLieux();
@@ -113,6 +99,7 @@ class SortieType extends AbstractType
             }
         );
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {
