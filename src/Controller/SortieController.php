@@ -113,13 +113,14 @@ class SortieController extends AbstractController
             throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
         }
 
-        if ($annulerSortieForm->isSubmitted()){
+        if ($annulerSortieForm->isSubmitted()) {
             $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulée']));
-            dd($sortie);
+
         }
 
+        $sortieRepository->add($sortie, true);
 
-        return $this->render('sortie/cancel.html.twig', [
+        return $this->redirectToRoute('sortie_list', [
             'sortie' => $sortie,
             'annulerSortieForm' => $annulerSortieForm->createView()
         ]);
