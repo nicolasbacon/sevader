@@ -19,26 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
 
-    #[Route('/list', name: 'list')]
-    public function list(EtatRepository $etatRepository, SortieRepository $sortieRepository, Request $request): Response
-    {
-        $filterForm = $this->createForm(FiltreType::class, null, ['csrf_protection' => false]);
-        $filterForm->handleRequest($request);
 
-        if ($filterForm->isSubmitted()) {
-            $filters = $filterForm->getData();
-
-            $sorties = $sortieRepository->findFiltered($etatRepository, $filters);
-        } else {
-            $sorties = $sortieRepository->findAllOrderedBySites();
-        }
-
-
-        return $this->render('sortie/list.html.twig', [
-            'sorties' => $sorties,
-            'filterForm' => $filterForm->createView()
-        ]);
-    }
 
     #[Route('/sortie/{id}', name: 'sortie', requirements: ["id" => "\d+"])]
     public function sortie(SortieRepository $sortieRepository, int $id): Response
