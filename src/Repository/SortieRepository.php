@@ -93,6 +93,16 @@ class SortieRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findOneWithParticipants(int $id) : Sortie {
+        return $this->createQueryBuilder('s')
+            ->join('s.participants', 'p')
+            ->addSelect('p')
+            ->andWhere('s.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */

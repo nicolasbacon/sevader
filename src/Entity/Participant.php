@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Il existe deja un compte avec cette email')]
@@ -18,27 +19,35 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups('test')]
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Groups('test')]
     private $email;
 
     #[ORM\Column(type: 'json')]
+    #[Groups('test')]
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[Groups('test')]
     private $password;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups('test')]
     private $nom;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups('test')]
     private $prenom;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups('test')]
     private $telephone;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups('test')]
     private $actif;
 
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
@@ -52,6 +61,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $campus;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Groups('test')]
     private $pseudo;
 
     public function __construct()
