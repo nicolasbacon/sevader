@@ -60,7 +60,14 @@
             <div class="col-md-6 d-flex middle-selection">
 
                 {{ form_row(filterForm.organizer, {'attr': {'class': 'organizer form-check-input'}}) }}
-                {{ form_row(filterForm.subscription)}}
+
+                <div >
+                {{ form_label(filterForm.subscription) }}
+                {% for child in filterForm.subscription %}
+                    <div>{{ form_widget(child) }}{{ form_label(child) }}</div>
+                {% endfor %}
+
+                </div>
                 {{ form_row(filterForm.ended, {'attr': {'class': 'ended form-check-input'}}) }}
 
 
