@@ -21,11 +21,10 @@
     <div class="lieu">
         {{ form_row(sortieForm.lieu) }}
     </div>
-    {{ form_row(sortieForm.inscriptionAuto) }}
-    {{ form_rest(sortieForm) }}
 
-    {#    <button type="submit" name="enregistrer">Enregistrer</button> #}
-    {#    <button type="submit" name="publier">Publier</button> #}
+    {{ form_row(sortieForm.inscriptionAuto) }}
+    {{ form_row(sortieForm.enregistrer) }}
+    {{ form_row(sortieForm.publier) }}
 
     {{ form_end(sortieForm) }}
     <a href="{{ path('main_home') }}">

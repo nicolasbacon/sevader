@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Modifier une sortie</h2>
+    {{ form_start(modifierSortieForm) }}
+
+    {{ form_row(modifierSortieForm.nom) }}
+    {{ form_row(modifierSortieForm.dateHeureDebut) }}
+    {{ form_row(modifierSortieForm.dateLimiteInscription) }}
+    {{ form_row(modifierSortieForm.nbInscriptionMax) }}
+    {{ form_row(modifierSortieForm.duree) }}  <span>minutes</span>
+    {{ form_row(modifierSortieForm.infosSortie) }}
+    <p>Ville organisatrice : {{ app.user.campus.nom }}</p>
+    <div class="ville">
+        {{ form_row(modifierSortieForm.ville) }}
+    </div>
+    <div class="lieu">
+        {{ form_row(modifierSortieForm.lieu) }}
+    </div>
+
+    {{ form_row(modifierSortieForm.enregistrer) }}
+    {{ form_row(modifierSortieForm.publier) }}
+
+   {{ form_row(modifierSortieForm.supprimer) }}
+
+    {{ form_end(modifierSortieForm) }}
+    <a href="{{ path('main_home') }}">
+        <button>Annuler</button>
+    </a>
+{% endblock %}
+
+{% block title %}
+    {{ parent() }} | Modifier sortie
+{% endblock %}
+

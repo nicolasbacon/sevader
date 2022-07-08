@@ -32,8 +32,15 @@
             #}{# RENDRE LE BADGE CLICKABLE #}{#
             <a href="#" class="stretched-link"></a>#}
 
+
+
         </div>
     {% endif %}
+
+
+
+
+
 
     {# FILTRE #}
     <div class="container filtre">
@@ -67,6 +74,7 @@
 
         </div>
     </div>
+
 
     {# TABLEAU #}
 
@@ -107,8 +115,11 @@
                                 {% endif %}
                             </td>
                             <td>
-
-                                <a href="">{{ sortie.organisateur.nom }}</a>
+                                {% if sortie.organisateur == app.user %}
+                                    <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.nom }}</a>
+                                {% else %}
+                                    <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.nom }}</a>
+                                {% endif %}
                             </td>
                             <td>
 
@@ -122,9 +133,9 @@
                                         <a href="">S'inscrire</a>
                                     {% endif %}
                                     {% if sortie.organisateur == app.user %}
-                                        {% if sortie.etat == 'Créée' %}
-                                            <a href="">Modifier</a>
-                                            <a href="">Publier</a>
+                                        {% if sortie.etat.libelle == 'Créée' %}
+                                            <a href="{{ path('sortie_edit',{'id': sortie.id }) }}">Modifier</a>
+                                            <a href="{{ path('sortie_published',{'id': sortie.id }) }}">Publier</a>
                                         {% endif %}
                                         {% if ( sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
                                             <a href="{{ path('sortie_cancel',{'id': sortie.id }) }}">Annuler</a>
@@ -137,7 +148,9 @@
                     </tbody>
                 </table>
 
-
+                <a href="{{ path('sortie_new') }}">
+                    <button class="btn yellow-btn">Créer une sortie</button>
+                </a>
                 <br>
                 <br>
                 <br>

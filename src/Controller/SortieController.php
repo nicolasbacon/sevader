@@ -19,8 +19,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
 
-
-
     #[Route('/sortie/{id}', name: 'sortie', requirements: ["id" => "\d+"])]
     public function sortie(SortieRepository $sortieRepository, int $id): Response
     {
@@ -32,6 +30,65 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/sortie.html.twig', [
             'sortie' => $sortie
+        ]);
+    }
+
+    #[Route('/published/{id}', name: 'published', requirements: ["id" => "\d+"])]
+    public function published(EtatRepository $etatRepository,SortieRepository $sortieRepository, int $id): Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if (!$sortie) {
+            throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
+        }
+        $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
+
+        $sortieRepository->add($sortie, true);
+
+        return $this->redirectToRoute('main_home');
+    }
+
+    #[Route('/edit/{id}', name: 'edit', requirements: ["id" => "\d+"])]
+    public function edit(Request $request, EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id): Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if (!$sortie) {
+            throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
+        }
+        $modifierSortieForm = $this->createForm(SortieType::class, $sortie);
+
+        $modifierSortieForm->handleRequest($request);
+
+        if ($modifierSortieForm->isSubmitted() && $modifierSortieForm->isValid()) {
+
+            //mettre l'état de la sortie créée à créée ou ouverte en fonction du submit utilisé
+            if ($modifierSortieForm->get('enregistrer')->isClicked()) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Créée']));
+            } elseif ($modifierSortieForm->get('publier')->isClicked()) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
+            } elseif ($modifierSortieForm->get('supprimer')->isClicked()) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Archivée']));
+            }
+
+
+            $sortieRepository->add($sortie, true);
+
+            //ajouter les messages flash en fonction du submit cliqué
+            if ($modifierSortieForm->get('enregistrer')->isClicked()) {
+                $this->addFlash('success', 'Sortie créée');
+            } elseif ($modifierSortieForm->get('publier')->isClicked()) {
+                $this->addFlash('success', 'Sortie publiée');
+            }elseif ($modifierSortieForm->get('supprimer')->isClicked()) {
+                $this->addFlash('success', 'Sortie supprimée');
+            }
+
+
+
+        }
+        return $this->render('sortie/edit.html.twig', [
+            'sortie' => $sortie,
+            'modifierSortieForm'=> $modifierSortieForm->createView()
         ]);
     }
 
@@ -95,14 +152,19 @@ class SortieController extends AbstractController
             throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
         }
 
-        if ($annulerSortieForm->isSubmitted()) {
+        if ($annulerSortieForm->isSubmitted() && $annulerSortieForm->isValid() ) {
             $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulée']));
 
+            $sortieRepository->add($sortie, true);
+
+            $this->addFlash('success','Sortie annulée');
+
+            return $this->redirectToRoute('main_home') ;
         }
 
-        $sortieRepository->add($sortie, true);
 
-        return $this->redirectToRoute('sortie_list', [
+
+        return $this->render('sortie/cancel.html.twig', [
             'sortie' => $sortie,
             'annulerSortieForm' => $annulerSortieForm->createView()
         ]);

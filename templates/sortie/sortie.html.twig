@@ -4,7 +4,6 @@
     {{ parent() }} | Détails de la sortie
 {% endblock %}
 
-
 {% block body %}
     <div class="container sortie-container">
         <h2 class="text-center mt-lg-3">Afficher une sortie</h2>
@@ -36,29 +35,29 @@
                             <th scope="col">Pseudo</th>
                             <th scope="col">Nom</th>
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for participant in sortie.participants %}
-                            <tr>
-                                <th scope="row">{{ participant.email|capitalize }}</th>
-                                {# TODO mettre le lien pour afficher le profil user #}
-                                <td><a href="">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    {% if sortie.etat.libelle == "Ouverte" %}
-                        <button class="btn btn-sortie mb-lg-3" id="inscription">S'inscrire</button>
+            </tr>
+            </thead>
+            <tbody>
+            {% for participant in sortie.participants %}
+                <tr>{% if app.user in sortie.participants %}
+                        <th scope="row"> <a href="{{ path('participant_editer_profil') }}">{{ participant.pseudo|capitalize }}</a></th>
+                    {% else %}
+                        <th scope="row">  <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ participant.pseudo|capitalize }}</a></th>
                     {% endif %}
-                </div>
-            </div>
-        </div>
+                    {% if app.user in sortie.participants %}
+                    <td> <a href="{{ path('participant_editer_profil') }}">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>
+                    {% else %}
+                    <td>  <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if sortie.etat.libelle == "Ouverte" %}
+            <button class="btn btn-sortie mb-lg-3" id="inscription">S'inscrire</button>
+        {% endif %}
     </div>
-
-    <br>
-
-
+                <br>
 {% endblock %}
 
 {% block extraJs %}
@@ -80,7 +79,7 @@
                 }
             });
         });
-
+        
     </script>
 {% endblock %}
 
