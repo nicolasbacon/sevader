@@ -242,10 +242,61 @@ ul {
 
 
 
+/*/////////////////////////////////////////FILTRES////////////////////////*/
+
+
+.filtre{
+    background-color: #ffc15a;
+    border-radius: 10px;
+    margin: 20px 0px 39px 109px;
+    font-family: 'Manrope', sans-serif;
+}
 
 
 
+/*////////////////////////////////////////////SEARCH//////////////////////*/
+.search{
+    padding: 0px 0px 18px 20px;
+}
 
+
+/*=========================================HREF ==================================*/
+
+.href a{
+color: #402e32;
+}
+
+
+/*//////////////////////////////////////////FILTER RESULT ///////////////////////////*/
+
+
+.resultat-recherche{
+    background-color: #C39855;
+    margin: 0px 4px 38px 109px;
+    font-family: 'Manrope', sans-serif;
+}
+
+/*///////////////////////////////////////////////////////SEARCH HOME PAGE BUTTON/////////////////*/
+
+.btn-home-search{
+    background-color: #2c3034; !important;
+    color: #fff3cd;
+    margin: 76px 0px 0px 65px;
+}
+.btn-home-search:hover{
+    color: darkkhaki;
+    background-color: #6b4900;
+}
+
+
+/*///////////////////////////////////////////HOME MIDDLE SELECTION /////////////////////*/
+
+.middle-selection{
+display: flex !important;
+flex-direction: column;
+align-items: center;
+justify-content: space-evenly;
+}
 
 
 
