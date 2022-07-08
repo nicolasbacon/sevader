@@ -63,6 +63,7 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
             //mettre l'état de la sortie créée à créée ou ouverte en fonction du submit utilisé
             if ($sortieForm->get('enregistrer')->isClicked()) {
                 $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Créée']));

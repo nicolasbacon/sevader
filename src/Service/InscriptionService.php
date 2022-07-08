@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use function PHPUnit\Framework\never;
 
 class InscriptionService
 {
@@ -15,9 +17,10 @@ class InscriptionService
                 $sortie->addParticipant($participant);
                 $entityManager->persist($sortie);
                 $entityManager->flush();
-            } else return "Le nombre de participants maximum est deja atteint";
-        } else return "Les inscriptions à cette sortie sont terminées";
-        return null;
+            } else throw new AccessDeniedException("Le nombre de participants maximum est deja atteint");
+        } else throw new AccessDeniedException("Les inscriptions à cette sortie sont terminées");
+
+        return $sortie->getParticipants();
     }
 
     public function desinscrireParticipant(Sortie $sortie, Participant $participant, EntityManagerInterface $entityManager)

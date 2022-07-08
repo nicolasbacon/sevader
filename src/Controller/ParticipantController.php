@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
+use App\Repository\SortieRepository;
 use App\Service\InscriptionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,13 +16,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/participant', name: 'participant_')]
 class ParticipantController extends AbstractController
 {
 
     #[Route('/profil', name: 'profil', methods: ['GET'])]
-    public function profil( ParticipantRepository $participantRepository): Response
+    public function profil(ParticipantRepository $participantRepository): Response
     {
         if (!$this->getUser())
             throw new AccessDeniedException("Vous devez etre connecter!");
@@ -73,15 +80,12 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/inscription/{id}', name: 'inscription')]
-    public function inscription(Sortie $sortie, InscriptionService $inscriptionService, EntityManagerInterface $entityManager): Response
+    public function inscription(SerializerInterface $serializer, Sortie $sortie, InscriptionService $inscriptionService, EntityManagerInterface $entityManager): Response
     {
-        $error = $inscriptionService->inscrireParticipant($sortie, $this->getUser(), $entityManager);
-        if ($error)
-            $this->addFlash('error', $error);
-
-        return $this->render('participant/index.html.twig', [
-            'controller_name' => 'ParticipantController',
-        ]);
+        $inscriptionService->inscrireParticipant($sortie, $this->getUser(), $entityManager);
+        $participants = $sortie->getParticipants();
+        $json = $serializer->serialize($participants, 'json', ['groups' => 'test']);
+        return $this->json($json);
     }
 
     #[Route('/desinscription/{id}', name: 'desinscription')]
