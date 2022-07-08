@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\LieuType;
+use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
 use App\Service\InscriptionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,7 +41,7 @@ class ParticipantController extends AbstractController
             throw new AccessDeniedException("Vous devez etre connecter!");
 
 
-        $form = $this->createForm(LieuType::class, $participant);
+        $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
