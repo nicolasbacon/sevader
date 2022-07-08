@@ -33,7 +33,7 @@
             <tbody>
             {% for participant in sortie.participants %}
                 <tr>
-                    <th scope="row">{{ participant.email|capitalize }}</th>
+                    <th scope="row">{{ participant.pseudo|capitalize }}</th>
                     {# TODO mettre le lien pour afficher le profil user #}
                     <td><a href="">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>
                 </tr>

@@ -81,14 +81,14 @@ class SortieType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ])
-        /*    ->add('enregistrer', SubmitType::class, [
-                'attr' => ['class' => 'save'],
+            ->add('enregistrer', SubmitType::class, [
+                'attr' => ['class' => 'submit'],
                 'label' => 'Enregistrer'
             ])
             ->add('publier', SubmitType::class, [
-                'attr' => ['class' => 'save'],
+                'attr' => ['class' => 'submit'],
                 'label' => 'Publier'
-            ])*/
+            ])
         ;
 
         $formModifier = function (FormInterface $form, Ville $villes = null) {

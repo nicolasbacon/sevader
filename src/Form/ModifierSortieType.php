@@ -63,26 +63,18 @@ class ModifierSortieType extends AbstractType
             ->add('infosSortie', TextareaType::class, [
                 'label' => 'Descriptions et infos : '
             ])
-            ->add('inscriptionAuto', CheckboxType::class, [
-                'label' => 'Voulez-vous vous inscrire à la sortie ? ',
-                'data' => true,
-                'mapped' => false,
-                'required' => false
-            ])
-            ->add('supprimer', SubmitType::class, [
-                'attr' => ['class' => 'save'],
-                'label' => 'supprimer'
-            ])
             ->add('enregistrer', SubmitType::class, [
-                'attr' => ['class' => 'save'],
+                'attr' => ['class' => 'submit'],
                 'label' => 'Enregistrer'
             ])
             ->add('publier', SubmitType::class, [
-                'attr' => ['class' => 'save'],
+                'attr' => ['class' => 'submit'],
                 'label' => 'Publier'
             ])
-
-
+            ->add('supprimer', SubmitType::class, [
+                'attr' => ['class' => 'submit'],
+                'label' => 'Supprimer'
+            ])
             ;
 
         $formModifier = function (FormInterface $form, Ville $villes = null) {
