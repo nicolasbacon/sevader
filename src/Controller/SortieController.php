@@ -34,7 +34,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/published/{id}', name: 'published', requirements: ["id" => "\d+"])]
-    public function published(EtatRepository $etatRepository,SortieRepository $sortieRepository, int $id): Response
+    public function published(EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id): Response
     {
         $sortie = $sortieRepository->find($id);
 
@@ -67,7 +67,7 @@ class SortieController extends AbstractController
                 $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Créée']));
             } elseif ($modifierSortieForm->get('publier')->isClicked()) {
                 $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
-            } elseif ($modifierSortieForm->get('supprimer')->isClicked()) {
+            } elseif ($modifierSortieForm->isSubmitted()) {
                 $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Archivée']));
             }
 
@@ -79,16 +79,15 @@ class SortieController extends AbstractController
                 $this->addFlash('success', 'Sortie créée');
             } elseif ($modifierSortieForm->get('publier')->isClicked()) {
                 $this->addFlash('success', 'Sortie publiée');
-            }elseif ($modifierSortieForm->get('supprimer')->isClicked()) {
+            } elseif ($modifierSortieForm->get('supprimer')->isClicked()) {
                 $this->addFlash('success', 'Sortie supprimée');
             }
-
-
+            return $this->redirectToRoute('main_home');
 
         }
         return $this->render('sortie/edit.html.twig', [
             'sortie' => $sortie,
-            'modifierSortieForm'=> $modifierSortieForm->createView()
+            'modifierSortieForm' => $modifierSortieForm->createView()
         ]);
     }
 
@@ -152,16 +151,15 @@ class SortieController extends AbstractController
             throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
         }
 
-        if ($annulerSortieForm->isSubmitted() && $annulerSortieForm->isValid() ) {
+        if ($annulerSortieForm->isSubmitted() && $annulerSortieForm->isValid()) {
             $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulée']));
 
             $sortieRepository->add($sortie, true);
 
-            $this->addFlash('success','Sortie annulée');
+            $this->addFlash('success', 'Sortie annulée');
 
-            return $this->redirectToRoute('main_home') ;
+            return $this->redirectToRoute('main_home');
         }
-
 
 
         return $this->render('sortie/cancel.html.twig', [

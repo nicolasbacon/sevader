@@ -47,21 +47,18 @@ class FiltreType extends AbstractType
             ->add('subscription', ChoiceType::class, [
                 'label' => 'Inscription à la sortie',
                 'choice_attr' =>[
+                    'Toutes les sorties' =>  [  'class' => 'subscription form-check-input'],
                     'Je suis inscrit' => [  'class' => 'subscription form-check-input'],
                     'Je ne suis pas inscrit' =>  [  'class' => 'subscription form-check-input'],
-                    'Toutes les sorties' =>  [  'class' => 'subscription form-check-input'],
-
                 ],
 
                 'choices' => [
+                    'Toutes les sorties' => 'none',
                     'Je suis inscrit' => 'registered',
                     'Je ne suis pas inscrit' => 'unregistered',
-                    'Toutes les sorties' => 'none'
                 ],
-                /*'required'=> false,
-                'placeholder' => 'toutes les sorties',*/
-                'expanded' => true
-
+                'expanded' => true,
+                'data' => 'none'
             ])
             ->add('ended', CheckboxType::class, [
                 'label' => 'Sorties passées',

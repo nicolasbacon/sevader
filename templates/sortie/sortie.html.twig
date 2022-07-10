@@ -32,12 +32,12 @@
             </thead>
             <tbody>
             {% for participant in sortie.participants %}
-                <tr>{% if sortie.organisateur == app.user %}
+                <tr>{% if app.user in sortie.participants %}
                         <th scope="row"> <a href="{{ path('participant_editer_profil') }}">{{ participant.pseudo|capitalize }}</a></th>
                     {% else %}
                         <th scope="row">  <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ participant.pseudo|capitalize }}</a></th>
                     {% endif %}
-                    {% if sortie.organisateur == app.user %}
+                    {% if app.user in sortie.participants %}
                     <td> <a href="{{ path('participant_editer_profil') }}">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>
                     {% else %}
                     <td>  <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>

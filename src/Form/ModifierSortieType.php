@@ -71,10 +71,6 @@ class ModifierSortieType extends AbstractType
                 'attr' => ['class' => 'submit'],
                 'label' => 'Publier'
             ])
-            ->add('supprimer', SubmitType::class, [
-                'attr' => ['class' => 'submit'],
-                'label' => 'Supprimer'
-            ])
             ;
 
         $formModifier = function (FormInterface $form, Ville $villes = null) {

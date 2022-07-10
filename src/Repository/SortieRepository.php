@@ -21,12 +21,21 @@ class SortieRepository extends ServiceEntityRepository
      * @var Security
      */
     private $security;
+    /**
+     * @var EtatRepository
+     */
+    private $etatRepository;
+    /**
+     * @var CampusRepository
+     */
+    private $campusRepository;
 
-
-    public function __construct(ManagerRegistry $registry,Security $security)
+    public function __construct(ManagerRegistry $registry, Security $security, EtatRepository $etatRepository, CampusRepository $campusRepository)
     {
         parent::__construct($registry, Sortie::class);
         $this->security = $security;
+        $this->etatRepository = $etatRepository;
+        $this->campusRepository = $campusRepository;
     }
 
     public function add(Sortie $entity, bool $flush = false): void
@@ -50,58 +59,71 @@ class SortieRepository extends ServiceEntityRepository
     public function findAllOrderedBySites(): array
     {
 
-         $qb = $this->createQueryBuilder('s');
-            $qb->andWhere('s.dateHeureDebut > CURRENT_TIMESTAMP()');
-          return  $qb->getQuery()->getResult();
+        $qb = $this->createQueryBuilder('s');
+        $qb->andWhere("(s.etat = :etatC AND s.organisateur = :organizer)")
+            ->setParameter('etatC', $this->etatRepository->findOneBy(['libelle' => 'Créée']))
+            ->setParameter('organizer', $this->security->getUser())
+            ->orWhere('s.etat not in (:etatA)')
+            ->setParameter('etatA', $this->etatRepository->findOneBy(['libelle' => ['Archivée','Créée']]))
+            ->andWhere('s.campus = :campus')
+            ->setParameter('campus', $this->campusRepository->findMinId());
+        return $qb->getQuery()->getResult();
     }
-    public function findFiltered(EtatRepository $etatRepository, mixed $filters)
-    {   $qb = $this->createQueryBuilder('s');
-        if($filters['site']  != null){
+
+    public function findFiltered(mixed $filters)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->andWhere("(s.etat = :etat1 AND s.organisateur = :organizer)")
+            ->setParameter('etat1', $this->etatRepository->findOneBy(['libelle' => 'Créée']))
+            ->setParameter('organizer', $this->security->getUser())
+            ->andWhere("s.etat not in (:etat2)")
+            ->setParameter('etat2',  $this->etatRepository->findOneBy(['libelle' => ['Archivée','Créée']]));
+        if ($filters['site'] != null) {
             $qb->andWhere('s.campus = :campus')
                 ->setParameter('campus', $filters['site']);
         }
-        if($filters['textSearch'] != null){
+        if ($filters['textSearch'] != null) {
             $qb->andWhere('s.nom LIKE LOWER(:nom)')
                 ->setParameter('nom', "%{$filters['textSearch']}%");
         }
-        if($filters['startDate'] != null){
+        if ($filters['startDate'] != null) {
             $qb->andWhere('s.dateHeureDebut >= :startDate')
                 ->setParameter('startDate', $filters['startDate']);
         }
-        if($filters['endDate']!= null){
+        if ($filters['endDate'] != null) {
             $qb->andWhere('s.dateHeureDebut <= :endDate')
                 ->setParameter('endDate', $filters['endDate']);
         }
-        if($filters['organizer']){
+        if ($filters['organizer']) {
             $qb->andWhere('s.organisateur = :organizer')
-                ->setParameter('organizer', $this->security->getUser() );
+                ->setParameter('organizer', $this->security->getUser());
         }
-        if($filters['subscription'] == 'registered'){
+        if ($filters['subscription'] == 'registered') {
             $qb->andWhere(':registered MEMBER OF s.participants')
-                ->setParameter('registered', $this->security->getUser() );
+                ->setParameter('registered', $this->security->getUser());
         }
-        if($filters['subscription'] == 'unregistered'){
+        if ($filters['subscription'] == 'unregistered') {
             $qb->andWhere(':unregistered NOT MEMBER OF s.participants')
-                ->setParameter('unregistered', $this->security->getUser() );
+                ->setParameter('unregistered', $this->security->getUser());
         }
-        if($filters['ended']){
+        if ($filters['ended']) {
             $qb->andWhere('s.etat = :ended')
-                ->setParameter('ended', $etatRepository->findOneBy(['libelle'=>'Passée'])  );
+                ->setParameter('ended', $this->etatRepository->findOneBy(['libelle' => 'Passée']));
         }
 
 
         return $qb->getQuery()->getResult();
     }
 
-    public function findOneWithParticipants(int $id) : Sortie {
+    public function findOneWithParticipants(int $id): Sortie
+    {
         return $this->createQueryBuilder('s')
             ->join('s.participants', 'p')
             ->addSelect('p')
             ->andWhere('s.id = :val')
             ->setParameter('val', $id)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects

@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Profil du participant</h2>
+    <h2>{{ participant.pseudo|capitalize }}</h2>
     <p>Campus de rattachement : {{ participant.campus.nom|upper }}</p>
     <p>Nom : {{ participant.nom|capitalize }}</p>
     <p>Prenom : {{ participant.prenom|capitalize }}</p>
-    <p>Pseudo : {{ participant.pseudo|capitalize }}</p>
     <p>Email : {{ participant.email }}</p>
     <p>Téléphone : {{ participant.telephone }}</p>
 {% endblock %}

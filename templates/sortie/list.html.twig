@@ -113,12 +113,13 @@
                             </td>
                             <td>
                                 {% if sortie.organisateur == app.user %}
-                                    <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.nom }}</a>
+                                    <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.pseudo }}</a>
                                 {% else %}
-                                    <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.nom }}</a>
+                                    <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a>
                                 {% endif %}
                             </td>
                             <td>
+                                {% if app.user %}
                                 {% if (sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
                                     <a href="{{ path('sortie_sortie', {'id': sortie.id }) }}">Afficher</a>
                                 {% endif %}
@@ -131,12 +132,14 @@
                                     {% if sortie.organisateur == app.user %}
                                         {% if sortie.etat.libelle == 'Créée' %}
                                             <a href="{{ path('sortie_edit',{'id': sortie.id }) }}">Modifier</a>
+
                                             <a href="{{ path('sortie_published',{'id': sortie.id }) }}">Publier</a>
                                         {% endif %}
                                         {% if ( sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
                                             <a href="{{ path('sortie_cancel',{'id': sortie.id }) }}">Annuler</a>
                                         {% endif %}
                                     {% endif %}
+                                {% endif %}
                                 {% endif %}
                             </td>
                         </tr>

@@ -2,14 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Form\CSVType;
 use App\Form\ParticipantType;
+use App\Form\RegistrationFormType;
 use App\Repository\ParticipantRepository;
+use App\Service\AjoutParticipant;
 use App\Service\InscriptionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -19,6 +24,37 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route('/participant', name: 'participant_')]
 class ParticipantController extends AbstractController
 {
+    #[Route('/new', name: 'new')]
+    public function new(ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
+    {
+        $participant = new Participant();
+        $registrationForm = $this->createForm(RegistrationFormType::class, $participant);
+
+        $registrationForm->handleRequest($request);
+
+        if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
+
+            $participant->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $participant,
+                    $registrationForm->get('plainPassword')->getData()
+        ));
+
+            $participant->setActif(true);
+            $participant->setRoles(["ROLE_USER"]);
+            $participant->setPseudo($participant->getNom() . "." . $participant->getPrenom());
+
+            $participantRepository->add($participant, true);
+
+            $this->addFlash('success', 'Participant ajouté');
+
+            return $this->redirectToRoute('participant_new');
+        }
+
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $registrationForm->createView(),
+        ]);
+    }
 
     #[Route('/profil', name: 'profil', methods: ['GET'])]
     public function profil(): Response
@@ -29,6 +65,27 @@ class ParticipantController extends AbstractController
 
         return $this->render('participant/show.html.twig', [
             'participant' => $this->getUser(),
+        ]);
+    }
+
+    #[Route('/upload', name: 'upload')]
+    function upload(AjoutParticipant $ajoutParticipant, Request $request): Response
+    {
+        $csvForm = $this->createForm(CSVType::class);
+        $csvForm->handleRequest($request);
+
+        if ($csvForm->isSubmitted() && $csvForm->isValid()) {
+            /**
+             * @var UploadedFile $file
+             */
+            $file = $csvForm->get('csvFile')->getData();
+
+            $ajoutParticipant->ajouterParticipantCSV($file);
+
+        }
+        $this->addFlash('success', 'Participants ajoutés');
+        return $this->render('participant/upload.html.twig', [
+            'csvForm' => $csvForm->createView()
         ]);
     }
 

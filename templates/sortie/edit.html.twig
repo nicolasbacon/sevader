@@ -21,9 +21,11 @@
     {{ form_row(modifierSortieForm.enregistrer) }}
     {{ form_row(modifierSortieForm.publier) }}
 
-   {{ form_row(modifierSortieForm.supprimer) }}
 
     {{ form_end(modifierSortieForm) }}
+    <a href="{{ path('main_home') }}">
+        <button type="submit">Supprimer</button>
+    </a>
     <a href="{{ path('main_home') }}">
         <button>Annuler</button>
     </a>
