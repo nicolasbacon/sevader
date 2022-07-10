@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/participant', name: 'participant_')]
@@ -144,21 +145,24 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/inscription/{id}', name: 'inscription')]
-    public function inscription(SerializerInterface $serializer, Sortie $sortie, InscriptionService $inscriptionService, EntityManagerInterface $entityManager): Response
+    public function inscription(Sortie $sortie, InscriptionService $inscriptionService, EntityManagerInterface $entityManager): Response
     {
-        $inscriptionService->inscrireParticipant($sortie, $this->getUser(), $entityManager);
-        $participants = $sortie->getParticipants();
-        $json = $serializer->serialize($participants, 'json', ['groups' => 'test']);
-        return $this->json($json);
+        $participants = $inscriptionService->inscrireParticipant($sortie, $this->getUser(), $entityManager);
+        $array = [];
+        foreach ($participants as $participant) {
+            $array[] = $participant;
+        }
+        return $this->json($array, 200, [], ['groups' => 'test']);
     }
 
     #[Route('/desinscription/{id}', name: 'desinscription')]
     public function desinscription(Sortie $sortie, InscriptionService $inscriptionService, EntityManagerInterface $entityManager): Response
     {
-        $inscriptionService->desinscrireParticipant($sortie, $this->getUser(), $entityManager);
-
-        return $this->render('participant/index.html.twig', [
-            'controller_name' => 'ParticipantController',
-        ]);
+        $participants = $inscriptionService->desinscrireParticipant($sortie, $this->getUser(), $entityManager);
+        $array = [];
+        foreach ($participants as $participant) {
+            $array[] = $participant;
+        }
+        return $this->json($array, 200, [], ['groups' => 'test']);
     }
 }

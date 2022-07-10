@@ -58,7 +58,14 @@
             <div class="col-md-6 d-flex middle-selection">
 
                 {{ form_row(filterForm.organizer, {'attr': {'class': 'organizer form-check-input'}}) }}
-                {{ form_row(filterForm.subscription) }}
+
+                <div >
+                {{ form_label(filterForm.subscription) }}
+                {% for child in filterForm.subscription %}
+                    <div>{{ form_widget(child) }}{{ form_label(child) }}</div>
+                {% endfor %}
+
+                </div>
                 {{ form_row(filterForm.ended, {'attr': {'class': 'ended form-check-input'}}) }}
 
 
@@ -113,9 +120,9 @@
                             </td>
                             <td>
                                 {% if sortie.organisateur == app.user %}
-                                    <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.pseudo }}</a>
+                                    <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.nom }}</a>
                                 {% else %}
-                                    <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a>
+                                    <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.nom }}</a>
                                 {% endif %}
                             </td>
                             <td>
@@ -132,7 +139,6 @@
                                     {% if sortie.organisateur == app.user %}
                                         {% if sortie.etat.libelle == 'Créée' %}
                                             <a href="{{ path('sortie_edit',{'id': sortie.id }) }}">Modifier</a>
-
                                             <a href="{{ path('sortie_published',{'id': sortie.id }) }}">Publier</a>
                                         {% endif %}
                                         {% if ( sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
@@ -147,19 +153,34 @@
                     </tbody>
                 </table>
 
-                <a href="{{ path('sortie_new') }}">
-                    <button class="btn yellow-btn">Créer une sortie</button>
-                </a>
-                <br>
-                <br>
-                <br>
-
             </div>
 
 
         </div>
+
     </div>
 
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col-md-auto">
+
+            </div>
+            <div class="col col-lg-2">
+                <a href="{{ path('sortie_new') }}">
+                    <button class="btn btn-home-bottom">Créer une sortie</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <br>
+    <br>
+    <br>
 
 
 
