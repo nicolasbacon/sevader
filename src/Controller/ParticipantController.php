@@ -116,21 +116,24 @@ class ParticipantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            if (!$userPasswordHasher->isPasswordValid($participant, $form->get('actualPassword')->getData())) {
-                $form->get('actualPassword')->addError(new FormError('Mot de passe actuel incorrect'));
-                return $this->renderForm('participant/edit.html.twig', [
-                    'participant' => $participant,
-                    'form' => $form,
-                ]);
+            $plainPassword = $form->get('actualPassword')->getData();
+            if ($plainPassword != null) {
+                if (!$userPasswordHasher->isPasswordValid($participant, $plainPassword)) {
+                    $form->get('actualPassword')->addError(new FormError('Mot de passe actuel incorrect'));
+                    return $this->renderForm('participant/edit.html.twig', [
+                        'participant' => $participant,
+                        'form' => $form,
+                    ]);
+                }
+                $participant->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $participant,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
             }
 
-            $participant->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $participant,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+
             $participantRepository->add($participant, true);
 
             return $this->redirectToRoute('participant_profil', [
