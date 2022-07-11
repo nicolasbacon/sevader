@@ -39,14 +39,14 @@ class CampusRepository extends ServiceEntityRepository
         }
     }
 
-    public function findMinId()
+   /* public function findMinId()
     {
         return $this->createQueryBuilder('c')
             ->orderBy('c.id','ASC')
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();
-    }
+    }*/
 
 //    /**
 //     * @return Campus[] Returns an array of Campus objects

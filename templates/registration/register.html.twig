@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
- {{ parent() }} | Inscrire un participant
+    {{ parent() }} | Inscrire un participant
 {% endblock %}
 
 {% block body %}
@@ -18,4 +18,7 @@
     {{ form_row(registrationForm.campus) }}
     <button type="submit" class="btn">Créer le participant</button>
     {{ form_end(registrationForm) }}
+    <a href="{{ path('main_home') }}">
+        <button>Annuler</button>
+    </a>
 {% endblock %}

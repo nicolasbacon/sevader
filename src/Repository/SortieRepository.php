@@ -66,7 +66,7 @@ class SortieRepository extends ServiceEntityRepository
             ->orWhere('s.etat not in (:etatA)')
             ->setParameter('etatA', $this->etatRepository->findOneBy(['libelle' => ['Archivée','Créée']]))
             ->andWhere('s.campus = :campus')
-            ->setParameter('campus', $this->campusRepository->findMinId());
+            ->setParameter('campus', $this->security->getUser()->getCampus());
         return $qb->getQuery()->getResult();
     }
 

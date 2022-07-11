@@ -21,7 +21,7 @@
             </div>
 
             <div class="col-md-4">
-                <p>Participant : {{ app.user.nom }}</p>
+                <p>Participant : {{ app.user.pseudo }}</p>
             </div>
             <div class="col-md-4">
                 <p>Date du jour : {{ "now"|date("m/d/Y") }}</p>
@@ -59,11 +59,11 @@
 
                 {{ form_row(filterForm.organizer, {'attr': {'class': 'organizer form-check-input'}}) }}
 
-                <div >
-                {{ form_label(filterForm.subscription) }}
-                {% for child in filterForm.subscription %}
-                    <div>{{ form_widget(child) }}{{ form_label(child) }}</div>
-                {% endfor %}
+                <div>
+                    {{ form_label(filterForm.subscription) }}
+                    {% for child in filterForm.subscription %}
+                        <div>{{ form_widget(child) }}{{ form_label(child) }}</div>
+                    {% endfor %}
 
                 </div>
                 {{ form_row(filterForm.ended, {'attr': {'class': 'ended form-check-input'}}) }}
@@ -127,25 +127,27 @@
                             </td>
                             <td>
                                 {% if app.user %}
-                                {% if (sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
-                                    <a href="{{ path('sortie_sortie', {'id': sortie.id }) }}">Afficher</a>
-                                {% endif %}
-                                {% if not (sortie.etat.libelle == 'Annulée') %}
-                                    {% if app.user in sortie.participants %}
-                                        <a href="">Se désister</a>
-                                    {% else %}
-                                        <a href="">S'inscrire</a>
+                                    {% if (sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
+                                        <a href="{{ path('sortie_sortie', {'id': sortie.id }) }}">Afficher</a>
                                     {% endif %}
-                                    {% if sortie.organisateur == app.user %}
-                                        {% if sortie.etat.libelle == 'Créée' %}
-                                            <a href="{{ path('sortie_edit',{'id': sortie.id }) }}">Modifier</a>
-                                            <a href="{{ path('sortie_published',{'id': sortie.id }) }}">Publier</a>
+                                    {% if not (sortie.etat.libelle == 'Annulée') %}
+                                        {% if app.user in sortie.participants %}
+                                            <a href="">Se désister</a>
+                                        {% else %}
+                                            <a href="">S'inscrire</a>
                                         {% endif %}
-                                        {% if ( sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
-                                            <a href="{{ path('sortie_cancel',{'id': sortie.id }) }}">Annuler</a>
+                                        {% if sortie.organisateur == app.user %}
+                                            {% if sortie.etat.libelle == 'Créée' %}
+                                                <a href="{{ path('sortie_edit',{'id': sortie.id }) }}">Modifier</a>
+                                                <a href="{{ path('sortie_published',{'id': sortie.id }) }}">Publier</a>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if sortie.organisateur == app.user or is_granted ("ROLE_ADMIN") %}
+                                            {% if ( sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
+                                                <a href="{{ path('sortie_cancel',{'id': sortie.id }) }}">Annuler</a>
+                                            {% endif %}
                                         {% endif %}
                                     {% endif %}
-                                {% endif %}
                                 {% endif %}
                             </td>
                         </tr>
