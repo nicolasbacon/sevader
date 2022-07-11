@@ -23,8 +23,8 @@
 
 
     {{ form_end(modifierSortieForm) }}
-    <a href="{{ path('main_home') }}">
-        <button type="submit">Supprimer</button>
+    <a href="{{ path('sortie_delete',{'id': sortie.id}) }}">
+        <button >Supprimer</button>
     </a>
     <a href="{{ path('main_home') }}">
         <button>Annuler</button>

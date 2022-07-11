@@ -20,6 +20,10 @@
     </div>
     <div class="lieu">
         {{ form_row(sortieForm.lieu) }}
+        <p id="lieuRue">Rue : </p>
+        <p id="lieuCodePostal">Code Postal : </p>
+        <p id="lieuLatitude">Latitude : </p>
+        <p id="lieuLongitude">Longitude : </p>
     </div>
 
     {{ form_row(sortieForm.inscriptionAuto) }}
@@ -27,6 +31,9 @@
     {{ form_row(sortieForm.publier) }}
 
     {{ form_end(sortieForm) }}
+ {#   <a href="{{ path('sortie_delete',{'id': sortie.id}) }}">
+        <button >Supprimer</button>
+    </a>#}
     <a href="{{ path('main_home') }}">
         <button>Annuler</button>
     </a>
@@ -35,9 +42,9 @@
 {% block extraJs %}
     <script>
         window.onload = () => {
-            // On va chercher la région
+            // On va chercher la ville
             let ville = document.querySelector("#sortie_ville");
-            ville.addEventListener("change", function(){
+            ville.addEventListener("change", function () {
                 let form = this.closest("form");
                 let data = this.name + "=" + this.value;
                 fetch(form.action, {
@@ -52,12 +59,34 @@
                         let content = document.createElement("html");
                         content.innerHTML = html;
                         let nouveauSelect = content.querySelector("#sortie_lieu");
+                        console.log(nouveauSelect);
                         document.querySelector("#sortie_lieu").replaceWith(nouveauSelect);
                     })
                     .catch(error => {
                         console.log(error);
                     })
             });
+
+
+            let lieu = document.getElementById('sortie_lieu');
+            console.log(lieu);
+            document.addEventListener('change',function (e){
+                if(e.target && e.target.id === 'sortie_lieu'){
+                    let dataLieu = {lieu_id: e.target.value, like: e.target.value};
+                    console.log(dataLieu);
+                    //utilisation de fetch pour lancer une requête asynchrone
+                    fetch("{{ path('api_lieu_retrieve') }}",{method:'POST',body: JSON.stringify(dataLieu)})
+                        .then(function (response){
+                            return response.json();
+                        }).then(function (dataLieu){
+                        document.getElementById("lieuRue").innerText = "Rue : "+ dataLieu.rue
+                        document.getElementById("lieuCodePostal").innerText = "Code Postal : "+dataLieu.codePostal
+                        document.getElementById("lieuLatitude").innerText = "Latitude : "+dataLieu.latitude
+                        document.getElementById("lieuLongitude").innerText = "Longitude : "+dataLieu.longitude
+                    })
+                }
+            })
+
         }
     </script>
 {% endblock %}
