@@ -60,13 +60,18 @@ class SortieRepository extends ServiceEntityRepository
     {
 
         $qb = $this->createQueryBuilder('s');
-        $qb->andWhere("(s.etat = :etatC AND s.organisateur = :organizer)")
-            ->setParameter('etatC', $this->etatRepository->findOneBy(['libelle' => 'Créée']))
+        $qb->andWhere("(s.etat = :etat1 AND s.organisateur = :organizer)")
+            ->setParameter('etat1', $this->etatRepository->findOneBy(['libelle' => 'Créée']))
             ->setParameter('organizer', $this->security->getUser())
-            ->orWhere('s.etat not in (:etatA)')
-            ->setParameter('etatA', $this->etatRepository->findOneBy(['libelle' => ['Archivée','Créée']]))
-            ->andWhere('s.campus = :campus')
-            ->setParameter('campus', $this->security->getUser()->getCampus());
+            ->orWhere('s.etat not in (:etat2)')
+            ->setParameter('etat2', $this->etatRepository->findOneBy(['libelle' => ['Archivée','Créée']]))
+            ->andWhere('s.campus IN (:campus)');
+            if($this->security->getUser()){
+            $qb->setParameter('campus', $this->security->getUser()->getCampus());
+            }
+            else{
+                $qb->setParameter('campus', $this->campusRepository->findAll());
+            }
         return $qb->getQuery()->getResult();
     }
 
@@ -76,8 +81,8 @@ class SortieRepository extends ServiceEntityRepository
         $qb->andWhere("(s.etat = :etat1 AND s.organisateur = :organizer)")
             ->setParameter('etat1', $this->etatRepository->findOneBy(['libelle' => 'Créée']))
             ->setParameter('organizer', $this->security->getUser())
-            ->andWhere("s.etat not in (:etat2)")
-            ->setParameter('etat2',  $this->etatRepository->findOneBy(['libelle' => ['Archivée','Créée']]));
+            ->orWhere('s.etat not in (:etat2)')
+            ->setParameter('etat2', $this->etatRepository->findOneBy(['libelle' => ['Archivée','Créée']]));
         if ($filters['site'] != null) {
             $qb->andWhere('s.campus = :campus')
                 ->setParameter('campus', $filters['site']);

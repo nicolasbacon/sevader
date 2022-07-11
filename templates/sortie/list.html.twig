@@ -102,55 +102,59 @@
                     </thead>
                     <tbody>
                     {% for sortie in sorties %}
-                        <tr>
-                            <th scope="row">{{ sortie.nom|capitalize }}</th>
-                            <td>{{ sortie.dateHeureDebut|date('d/m/Y h:i') }}</td>
-                            {% if not (sortie.etat.libelle == 'Annulée') %}
-                                <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
-                                <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
-                            {% else %}
-                                <td>Sortie annulée</td>
-                                <td>Sortie annulée</td>
-                            {% endif %}
-                            <td>{{ sortie.etat.libelle }}</td>
-                            <td>
-                                {% if app.user in sortie.participants %}
-                                    X
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if sortie.organisateur == app.user %}
-                                    <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.nom }}</a>
+                        {% if not (sortie.etat.libelle == 'Archivée') %}
+                            <tr>
+                                <th scope="row">{{ sortie.nom|capitalize }}</th>
+                                <td>{{ sortie.dateHeureDebut|date('d/m/Y h:i') }}</td>
+                                {% if not (sortie.etat.libelle == 'Annulée') %}
+                                    <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
+                                    <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
                                 {% else %}
-                                    <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.nom }}</a>
+                                    <td>Sortie annulée</td>
+                                    <td>Sortie annulée</td>
                                 {% endif %}
-                            </td>
-                            <td>
-                                {% if app.user %}
-                                    {% if (sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
-                                        <a href="{{ path('sortie_sortie', {'id': sortie.id }) }}">Afficher</a>
+                                <td>{{ sortie.etat.libelle }}</td>
+                                <td>
+                                    {% if app.user in sortie.participants %}
+                                        X
                                     {% endif %}
-                                    {% if not (sortie.etat.libelle == 'Annulée') %}
-                                        {% if app.user in sortie.participants %}
-                                            <a href="">Se désister</a>
-                                        {% else %}
-                                            <a href="">S'inscrire</a>
+                                </td>
+                                <td>
+                                    {% if sortie.organisateur == app.user %}
+                                        <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.nom }}</a>
+                                    {% else %}
+                                        <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.nom }}</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if app.user %}
+                                        {% if (sortie.etat.libelle in ['Ouverte','Cloturée']) %}
+                                            <a href="{{ path('sortie_sortie', {'id': sortie.id }) }}">Afficher</a>
                                         {% endif %}
-                                        {% if sortie.organisateur == app.user %}
-                                            {% if sortie.etat.libelle == 'Créée' %}
-                                                <a href="{{ path('sortie_edit',{'id': sortie.id }) }}">Modifier</a>
-                                                <a href="{{ path('sortie_published',{'id': sortie.id }) }}">Publier</a>
+                                        {% if not (sortie.etat.libelle in ['Annulée','Passée']) %}
+                                            {% if app.user in sortie.participants %}
+                                                <a href="">Se désister</a>
+                                            {% else %}
+                                                {% if not (sortie.etat.libelle == 'Cloturée') %}
+                                                <a href="">S'inscrire</a>
+                                            {% endif %}
+                                            {% endif %}
+                                            {% if sortie.organisateur == app.user %}
+                                                {% if sortie.etat.libelle == 'Créée' %}
+                                                    <a href="{{ path('sortie_edit',{'id': sortie.id }) }}">Modifier</a>
+                                                    <a href="{{ path('sortie_published',{'id': sortie.id }) }}">Publier</a>
+                                                {% endif %}
+                                            {% endif %}
+                                            {% if sortie.organisateur == app.user or is_granted ("ROLE_ADMIN") %}
+                                                {% if (sortie.etat.libelle in ['Ouverte','Cloturée']) %}
+                                                    <a href="{{ path('sortie_cancel',{'id': sortie.id }) }}">Annuler</a>
+                                                {% endif %}
                                             {% endif %}
                                         {% endif %}
-                                        {% if sortie.organisateur == app.user or is_granted ("ROLE_ADMIN") %}
-                                            {% if ( sortie.etat.libelle == 'Ouverte') or (sortie.etat.libelle == 'Cloturée') %}
-                                                <a href="{{ path('sortie_cancel',{'id': sortie.id }) }}">Annuler</a>
-                                            {% endif %}
-                                        {% endif %}
                                     {% endif %}
-                                {% endif %}
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>
