@@ -48,6 +48,22 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('main_home');
     }
 
+    #[Route('/delete/{id}', name: 'delete', requirements: ["id" => "\d+"])]
+    public function delete(EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id): Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if (!$sortie) {
+            throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
+        }
+
+        $sortieRepository->remove($sortie, true);
+
+        $this->addFlash('success', 'Sortie supprimée');
+
+        return $this->redirectToRoute('main_home');
+    }
+
     #[Route('/edit/{id}', name: 'edit', requirements: ["id" => "\d+"])]
     public function edit(Request $request, EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id): Response
     {
@@ -56,38 +72,34 @@ class SortieController extends AbstractController
         if (!$sortie) {
             throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
         }
-        $modifierSortieForm = $this->createForm(SortieType::class, $sortie);
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
 
-        $modifierSortieForm->handleRequest($request);
+        $sortieForm->handleRequest($request);
 
-        if ($modifierSortieForm->isSubmitted() && $modifierSortieForm->isValid()) {
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
             //mettre l'état de la sortie créée à créée ou ouverte en fonction du submit utilisé
-            if ($modifierSortieForm->get('enregistrer')->isClicked()) {
+            if ($sortieForm->get('enregistrer')->isClicked()) {
                 $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Créée']));
-            } elseif ($modifierSortieForm->get('publier')->isClicked()) {
+            } elseif ($sortieForm->get('publier')->isClicked()) {
                 $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
-            } elseif ($modifierSortieForm->isSubmitted()) {
-                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Archivée']));
             }
 
 
             $sortieRepository->add($sortie, true);
 
             //ajouter les messages flash en fonction du submit cliqué
-            if ($modifierSortieForm->get('enregistrer')->isClicked()) {
+            if ($sortieForm->get('enregistrer')->isClicked()) {
                 $this->addFlash('success', 'Sortie créée');
-            } elseif ($modifierSortieForm->get('publier')->isClicked()) {
+            } elseif ($sortieForm->get('publier')->isClicked()) {
                 $this->addFlash('success', 'Sortie publiée');
-            } elseif ($modifierSortieForm->get('supprimer')->isClicked()) {
-                $this->addFlash('success', 'Sortie supprimée');
             }
             return $this->redirectToRoute('main_home');
 
         }
-        return $this->render('sortie/edit.html.twig', [
+        return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
-            'modifierSortieForm' => $modifierSortieForm->createView()
+            'sortieForm' => $sortieForm->createView()
         ]);
     }
 
