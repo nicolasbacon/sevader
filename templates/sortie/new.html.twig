@@ -31,9 +31,12 @@
     {{ form_row(sortieForm.publier) }}
 
     {{ form_end(sortieForm) }}
- {#   <a href="{{ path('sortie_delete',{'id': sortie.id}) }}">
+
+    {% if sortie.id != null %}
+    <a href="{{ path('sortie_delete',{'id': sortie.id}) }}">
         <button >Supprimer</button>
-    </a>#}
+    </a>
+    {% endif %}
     <a href="{{ path('main_home') }}">
         <button>Annuler</button>
     </a>
@@ -67,22 +70,18 @@
                     })
             });
 
-
-            let lieu = document.getElementById('sortie_lieu');
-            console.log(lieu);
-            document.addEventListener('change',function (e){
-                if(e.target && e.target.id === 'sortie_lieu'){
+            document.addEventListener('change', function (e) {
+                if (e.target && e.target.id === 'sortie_lieu') {
                     let dataLieu = {lieu_id: e.target.value, like: e.target.value};
-                    console.log(dataLieu);
                     //utilisation de fetch pour lancer une requête asynchrone
-                    fetch("{{ path('api_lieu_retrieve') }}",{method:'POST',body: JSON.stringify(dataLieu)})
-                        .then(function (response){
+                    fetch("{{ path('api_lieu_retrieve') }}", {method: 'POST', body: JSON.stringify(dataLieu)})
+                        .then(function (response) {
                             return response.json();
-                        }).then(function (dataLieu){
-                        document.getElementById("lieuRue").innerText = "Rue : "+ dataLieu.rue
-                        document.getElementById("lieuCodePostal").innerText = "Code Postal : "+dataLieu.codePostal
-                        document.getElementById("lieuLatitude").innerText = "Latitude : "+dataLieu.latitude
-                        document.getElementById("lieuLongitude").innerText = "Longitude : "+dataLieu.longitude
+                        }).then(function (dataLieu) {
+                        document.getElementById("lieuRue").innerText = "Rue : " + dataLieu.rue
+                        document.getElementById("lieuCodePostal").innerText = "Code Postal : " + dataLieu.codePostal
+                        document.getElementById("lieuLatitude").innerText = "Latitude : " + dataLieu.latitude
+                        document.getElementById("lieuLongitude").innerText = "Longitude : " + dataLieu.longitude
                     })
                 }
             })

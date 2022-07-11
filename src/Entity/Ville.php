@@ -17,11 +17,9 @@ class Ville
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups('api_lieu')]
     private $nom;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups('api_lieu')]
     private $codePostal;
 
     #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class)]

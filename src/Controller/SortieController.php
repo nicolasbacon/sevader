@@ -67,7 +67,7 @@ class SortieController extends AbstractController
     #[Route('/edit/{id}', name: 'edit', requirements: ["id" => "\d+"])]
     public function edit(Request $request, EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id): Response
     {
-        $sortie = $sortieRepository->find($id);
+        $sortie = $sortieRepository->findOneWithRelations($id);
 
         if (!$sortie) {
             throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
@@ -146,7 +146,8 @@ class SortieController extends AbstractController
 
 
         return $this->render('sortie/new.html.twig', [
-            'sortieForm' => $sortieForm->createView()
+            'sortieForm' => $sortieForm->createView(),
+            'sortie'=> $sortie
         ]);
     }
 

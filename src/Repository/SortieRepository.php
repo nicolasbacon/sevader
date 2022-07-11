@@ -56,33 +56,60 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneWithRelations(int $id): Sortie
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->leftJoin('s.campus', 'c')
+            ->addSelect('c')
+            ->leftJoin('s.lieu', 'l')
+            ->addSelect('l')
+            ->leftJoin('l.ville','v')
+            ->addSelect('v')
+            ->where('s.id = :id')
+            ->setParameter('id', $id)
+            ;
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
     public function findAllOrderedBySites(): array
     {
 
         $qb = $this->createQueryBuilder('s');
-        $qb->andWhere("(s.etat = :etat1 AND s.organisateur = :organizer)")
+        $qb->leftJoin('s.etat','e')
+            ->addSelect('e')
+            ->leftJoin('s.organisateur','o')
+            ->addSelect('o')
+            ->leftJoin('s.participants','p')
+            ->addSelect('p')
+            ->andWhere("(s.etat = :etat1 AND s.organisateur = :organizer)")
             ->setParameter('etat1', $this->etatRepository->findOneBy(['libelle' => 'Créée']))
             ->setParameter('organizer', $this->security->getUser())
             ->orWhere('s.etat not in (:etat2)')
-            ->setParameter('etat2', $this->etatRepository->findOneBy(['libelle' => ['Archivée','Créée']]))
+            ->setParameter('etat2', $this->etatRepository->findOneBy(['libelle' => ['Archivée', 'Créée']]))
             ->andWhere('s.campus IN (:campus)');
-            if($this->security->getUser()){
+        if ($this->security->getUser()) {
             $qb->setParameter('campus', $this->security->getUser()->getCampus());
-            }
-            else{
-                $qb->setParameter('campus', $this->campusRepository->findAll());
-            }
+        } else {
+            $qb->setParameter('campus', $this->campusRepository->findAll());
+        }
         return $qb->getQuery()->getResult();
     }
 
     public function findFiltered(mixed $filters)
     {
         $qb = $this->createQueryBuilder('s');
-        $qb->andWhere("(s.etat = :etat1 AND s.organisateur = :organizer)")
+        $qb->leftJoin('s.etat','e')
+            ->addSelect('e')
+            ->leftJoin('s.organisateur','o')
+            ->addSelect('o')
+            ->leftJoin('s.participants','p')
+            ->addSelect('p')
+            ->andWhere("(s.etat = :etat1 AND s.organisateur = :organizer)")
             ->setParameter('etat1', $this->etatRepository->findOneBy(['libelle' => 'Créée']))
             ->setParameter('organizer', $this->security->getUser())
             ->orWhere('s.etat not in (:etat2)')
-            ->setParameter('etat2', $this->etatRepository->findOneBy(['libelle' => ['Archivée','Créée']]));
+            ->setParameter('etat2', $this->etatRepository->findOneBy(['libelle' => ['Archivée', 'Créée']]));
         if ($filters['site'] != null) {
             $qb->andWhere('s.campus = :campus')
                 ->setParameter('campus', $filters['site']);
