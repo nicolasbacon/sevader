@@ -97,14 +97,12 @@ class SortieType extends AbstractType
 
         $formModifier = function (FormInterface $form, Ville $villes = null) {
             $lieux = null === $villes ? [] : $villes->getLieux();
-
             $form->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
-                'choices' => $lieux,
+                'choices' => $lieux->toArray(),
                 'required' => false,
                 'choice_label' => 'nom',
                 'placeholder' => 'Lieu (Choisir une ville)',
-                'attr' => ['class' => 'custom-select'],
                 'label' => 'Lieu'
             ]);
         };
