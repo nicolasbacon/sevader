@@ -46,6 +46,7 @@
                     {% endif %}
                     {% if app.user in sortie.participants %}
                     <td> <a href="{{ path('participant_editer_profil') }}">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>
+                    <td> <a href="{{ path('participant_editer_profil') }}">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>
                     {% else %}
                     <td>  <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>
                     {% endif %}

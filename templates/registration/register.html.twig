@@ -5,20 +5,43 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Inscrire un participant</h1>
+<div class="register-container"
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
 
-    {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.email) }}
-    {{ form_row(registrationForm.plainPassword, {
-        label: 'Password'
-    }) }}
-    {{ form_row(registrationForm.nom) }}
-    {{ form_row(registrationForm.prenom) }}
-    {{ form_row(registrationForm.telephone) }}
-    {{ form_row(registrationForm.campus) }}
-    <button type="submit" class="btn">Créer le participant</button>
-    {{ form_end(registrationForm) }}
-    <a href="{{ path('main_home') }}">
-        <button>Annuler</button>
-    </a>
+            </div>
+            <div class="col-sm">
+                <h1>Inscrire un participant</h1>
+                {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Password'
+                }) }}
+                {{ form_row(registrationForm.nom) }}
+                {{ form_row(registrationForm.prenom) }}
+                {{ form_row(registrationForm.telephone) }}
+                {{ form_row(registrationForm.campus) }}
+                <div class="btn-register-container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <button type="submit" class="btn btn-register">Créer le participant</button>
+                            {{ form_end(registrationForm) }}
+                        </div>
+                        <div class="col-sm">
+                            <a href="{{ path('main_home') }}">
+                                <button class="btn btn-register">Annuler</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 {% endblock %}
