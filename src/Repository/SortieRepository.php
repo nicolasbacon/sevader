@@ -56,6 +56,18 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneWithRelations(int $id): Sortie {
+        $qb = $this->createQueryBuilder('s');
+        return $qb->andWhere('s.id = :id')
+            ->setParameter('id', $id)
+            ->join('s.lieu', 'lieu')
+            ->addSelect('lieu')
+            ->join('lieu.ville', 'v')
+            ->addSelect('v')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function findAllOrderedBySites(): array
     {
 

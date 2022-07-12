@@ -20,10 +20,10 @@
     </div>
     <div class="lieu">
         {{ form_row(sortieForm.lieu) }}
-        <p id="lieuRue">Rue : </p>
-        <p id="lieuCodePostal">Code Postal : </p>
-        <p id="lieuLatitude">Latitude : </p>
-        <p id="lieuLongitude">Longitude : </p>
+        <p id="lieuRue">Rue : {{ sortie.lieu.rue }}</p>
+        <p id="lieuCodePostal">Code Postal : {{ sortie.lieu.ville.codePostal }}</p>
+        <p id="lieuLatitude">Latitude : {{ sortie.lieu.latitude }}</p>
+        <p id="lieuLongitude">Longitude : {{ sortie.lieu.longitude }}</p>
     </div>
 
     {{ form_row(sortieForm.inscriptionAuto) }}
