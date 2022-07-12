@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | Modifier un campus
+{% endblock %}
+
+{% block body %}
+    <h2>Modifier le campus</h2>
+    {{ form_start(campusForm) }}
+
+    {{ form_row(campusForm.nom) }}
+
+    <button>Modifier</button>
+
+    {{ form_end(campusForm) }}
+
+{% endblock %}
+

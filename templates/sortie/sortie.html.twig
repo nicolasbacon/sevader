@@ -10,10 +10,8 @@
         <div class="row sortie-background">
             <div class="col-6 list-group mt-lg-3">
                 <p class="list-group-item">Nom de la sortie : {{ sortie.nom|capitalize }}</p>
-                <p class="list-group-item">Date et heure de la sortie
-                    : {{ sortie.dateHeureDebut|date("d/m/Y h:i") }}</p>
-                <p class="list-group-item">Date limite d'inscription
-                    : {{ sortie.dateLimiteInscription|date("d/m/Y") }}</p>
+                <p class="list-group-item">Date et heure de la sortie : {{ sortie.dateHeureDebut|date("d/m/Y h:i") }}</p>
+                <p class="list-group-item">Date limite d'inscription : {{ sortie.dateLimiteInscription|date("d/m/Y") }}</p>
                 <p class="list-group-item">Nombre de places : {{ sortie.nbInscriptionMax }}</p>
                 <p class="list-group-item">Durée : {{ sortie.duree }} minutes</p>
                 <label for="description">Description et infos : </label>
@@ -37,85 +35,74 @@
                             <th scope="col">Pseudo</th>
                             <th scope="col">Nom</th>
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for participant in sortie.participants %}
-                            <tr>{% if app.user in sortie.participants %}
-                                    <th scope="row"><a
-                                                href="{{ path('participant_editer_profil') }}">{{ participant.pseudo|capitalize }}</a>
-                                    </th>
-                                {% else %}
-                                    <th scope="row"><a
-                                                href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ participant.pseudo|capitalize }}</a>
-                                    </th>
-                                {% endif %}
-                                {% if app.user in sortie.participants %}
-                                    <td>
-                                        <a href="{{ path('participant_editer_profil') }}">{{ [participant.prenom, participant.nom]|join(' ') }}</a>
-                                    </td>
-                                {% else %}
-                                    <td>
-                                        <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ [participant.prenom, participant.nom]|join(' ') }}</a>
-                                    </td>
-                                {% endif %}
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    {% if sortie.etat.libelle == "Ouverte" %}
-                        <button class="btn btn-sortie mb-lg-3" id="inscription">S'inscrire</button>
-                        <button class="btn btn-sortie mb-lg-3" id="desinscription">Se desister</button>
+            </tr>
+            </thead>
+            <tbody>
+            {% for participant in sortie.participants %}
+                <tr>{% if app.user in sortie.participants %}
+                        <th scope="row"> <a href="{{ path('participant_editer_profil') }}">{{ participant.pseudo|capitalize }}</a></th>
+                    {% else %}
+                        <th scope="row">  <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ participant.pseudo|capitalize }}</a></th>
                     {% endif %}
-                </div>
-                <br>
-            </div>
-        </div>
+                    {% if app.user in sortie.participants %}
+                    <td> <a href="{{ path('participant_editer_profil') }}">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>
+                    {% else %}
+                    <td>  <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ [participant.prenom, participant.nom]|join(' ') }}</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if sortie.etat.libelle == "Ouverte" %}
+            <button class="btn btn-sortie mb-lg-3" id="inscription">S'inscrire</button>
+            <button class="btn btn-sortie mb-lg-3" id="desinscription">Se desister</button>
+        {% endif %}
     </div>
+                <br>
 {% endblock %}
 
-        {% block extraJs %}
-            <script>
-                document.getElementById('inscription').addEventListener('click', function (evt) {
-                    fetch("{{ url('participant_inscription', {'id':sortie.id}) }}")
-                        .then(function (response) {
-                            return response.json();
-                        }).then(function (data) {
-                        var refTable = document.getElementById('listParticipants');
-                        refTable.children[1].innerHTML = '';
-                        for (let participant of data) {
-                            var nouvelleLigne = refTable.children[1].insertRow();
+{% block extraJs %}
+    <script>
+        document.getElementById('inscription').addEventListener('click', function (evt) {
+            fetch("{{ url('participant_inscription', {'id':sortie.id}) }}")
+                .then(function (response){
+                    return response.json();
+                }).then(function (data){
+                var refTable = document.getElementById('listParticipants');
+                refTable.children[1].innerHTML = '';
+                for (let participant of data) {
+                    var nouvelleLigne = refTable.children[1].insertRow();
 
-                            var cellulePseudo = nouvelleLigne.insertCell(0);
-                            var pseudo = document.createTextNode(participant.pseudo.charAt(0).toUpperCase() + participant.pseudo.slice(1))
-                            cellulePseudo.appendChild(pseudo);
+                    var cellulePseudo = nouvelleLigne.insertCell(0);
+                    var pseudo = document.createTextNode(participant.pseudo.charAt(0).toUpperCase() + participant.pseudo.slice(1))
+                    cellulePseudo.appendChild(pseudo);
 
-                            var celluleNom = nouvelleLigne.insertCell(1);
-                            var nom = document.createTextNode(participant.nom.charAt(0).toUpperCase() + participant.nom.slice(1))
-                            celluleNom.appendChild(nom);
-                        }
-                    });
-                });
-                document.getElementById('desinscription').addEventListener('click', function (evt) {
-                    fetch("{{ url('participant_desinscription', {'id':sortie.id}) }}")
-                        .then(function (response) {
-                            return response.json();
-                        }).then(function (data) {
-                        var refTable = document.getElementById('listParticipants');
-                        refTable.children[1].innerHTML = '';
-                        for (let participant of data) {
-                            var nouvelleLigne = refTable.children[1].insertRow();
+                    var celluleNom = nouvelleLigne.insertCell(1);
+                    var nom = document.createTextNode(participant.nom.charAt(0).toUpperCase() + participant.nom.slice(1))
+                    celluleNom.appendChild(nom);
+                }
+            });
+        });
+        document.getElementById('desinscription').addEventListener('click', function (evt) {
+            fetch("{{ url('participant_desinscription', {'id':sortie.id}) }}")
+                .then(function (response){
+                    return response.json();
+                }).then(function (data){
+                var refTable = document.getElementById('listParticipants');
+                refTable.children[1].innerHTML = '';
+                for (let participant of data) {
+                    var nouvelleLigne = refTable.children[1].insertRow();
 
-                            var cellulePseudo = nouvelleLigne.insertCell(0);
-                            var pseudo = document.createTextNode(participant.pseudo.charAt(0).toUpperCase() + participant.pseudo.slice(1))
-                            cellulePseudo.appendChild(pseudo);
+                    var cellulePseudo = nouvelleLigne.insertCell(0);
+                    var pseudo = document.createTextNode(participant.pseudo.charAt(0).toUpperCase() + participant.pseudo.slice(1))
+                    cellulePseudo.appendChild(pseudo);
 
-                            var celluleNom = nouvelleLigne.insertCell(1);
-                            var nom = document.createTextNode(participant.nom.charAt(0).toUpperCase() + participant.nom.slice(1))
-                            celluleNom.appendChild(nom);
-                        }
-                    });
-                });
-            </script>
-        {% endblock %}
+                    var celluleNom = nouvelleLigne.insertCell(1);
+                    var nom = document.createTextNode(participant.nom.charAt(0).toUpperCase() + participant.nom.slice(1))
+                    celluleNom.appendChild(nom);
+                }
+            });
+        });
+    </script>
+{% endblock %}
 
