@@ -10,7 +10,7 @@ use Faker\Factory;
 class LieuFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture
 {
     public function load(ObjectManager $manager)
-    {
+    {/*
         $faker = Factory::create('fr_FR');
         $villes = $manager->getRepository(Ville::class)->findAll();
 
@@ -24,8 +24,8 @@ class LieuFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture
                 $lieu->setVille($ville);
 
                 $manager->persist($lieu);
-            }
-        }
+            }*/
+        //}
 
 //        $manager->flush();
     }

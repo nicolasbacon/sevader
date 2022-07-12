@@ -25,7 +25,7 @@
                     <tbody>
                     {% for ville in villes|sortByField('nom') %}
                         <tr>
-                            <th scope="row">{{ ville.nom|capitalize }}</th>
+                            <th scope="row">{{ ville.nom|title }}</th>
                             <td>{{ ville.codePostal }}</td>
                             <td>
 

@@ -24,7 +24,7 @@
                     <tbody>
                     {% for campus in listeCampus|sortByField('nom') %}
                         <tr>
-                            <th scope="row">{{ campus.nom|capitalize }}</th>
+                            <th scope="row">{{ campus.nom|title }}</th>
                             <td>
 
                                 <a href="{{ path('campus_edit',{'id': campus.id}) }}">Modifier</a>

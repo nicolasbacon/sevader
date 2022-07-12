@@ -43,7 +43,7 @@ class CampusRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('c');
         if ($filter['search'] != null) {
-            $qb->andWhere('c.nom.nom LIKE LOWER(:search)')
+            $qb->andWhere('c.nom LIKE LOWER(:search)')
                 ->setParameter('search', "%{$filter['search']}%");
         }
         return $qb->getQuery()->getResult();

@@ -20,13 +20,6 @@ class CampusController extends AbstractController
         $filterForm = $this->createForm(FiltreTexteType::class, null, ['csrf_protection' => false]);
         $filterForm->handleRequest($request);
 
-        if ($filterForm->isSubmitted()) {
-            $filter = $filterForm->getData();
-
-            $listeCampus = $campusRepository->findCampusByTextSearch($filter);
-        } else {
-            $listeCampus = $campusRepository->findAllOrderedByName();
-        }
 
         $campus = new Campus();
         $campusForm = $this->createForm(CampusType::class, $campus);
@@ -34,14 +27,20 @@ class CampusController extends AbstractController
         $campusForm->handleRequest($request);
 
         if ($campusForm->isSubmitted() && $campusForm->isValid()) {
+            $campus->setNom(strtoupper($campus->getNom()));
             $campusRepository->add($campus, true);
             $this->addFlash('success', 'Campus créé');
 
-            $this->redirectToRoute('campus_manage', [
-                'campusForm' => $campusForm->createView(),
-                'listeCampus' => $listeCampus,
-                'filterForm' => $filterForm->createView()
-            ]);
+            $this->redirectToRoute('campus_manage');
+        }
+
+
+        if ($filterForm->isSubmitted()) {
+            $filter = $filterForm->getData();
+
+            $listeCampus = $campusRepository->findCampusByTextSearch($filter);
+        } else {
+            $listeCampus = $campusRepository->findAllOrderedByName();
         }
 
         return $this->render('campus/manage.html.twig', [

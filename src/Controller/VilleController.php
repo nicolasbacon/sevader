@@ -17,16 +17,7 @@ class VilleController extends AbstractController
     #[Route('/manage', name: 'manage')]
     public function manage(Request $request, VilleRepository $villeRepository): Response
     {
-        $filterForm = $this->createForm(FiltreTexteType::class, null, ['csrf_protection' => false]);
-        $filterForm->handleRequest($request);
 
-        if ($filterForm->isSubmitted()) {
-            $filter = $filterForm->getData();
-
-            $villes = $villeRepository->findVillesByTextSearch($filter);
-        } else {
-            $villes = $villeRepository->findAllOrderedByName();
-        }
 
         $ville = new Ville();
         $villeForm = $this->createForm(VilleType::class, $ville);
@@ -37,13 +28,19 @@ class VilleController extends AbstractController
             $villeRepository->add($ville, true);
             $this->addFlash('success', 'Ville créée');
 
-            $this->redirectToRoute('ville_manage', [
-                'villeForm' => $villeForm->createView(),
-                'villes' => $villes,
-                'filterForm' => $filterForm->createView()
-            ]);
+            $this->redirectToRoute('ville_manage');
         }
 
+        $filterForm = $this->createForm(FiltreTexteType::class, null, ['csrf_protection' => false]);
+        $filterForm->handleRequest($request);
+
+        if ($filterForm->isSubmitted()) {
+            $filter = $filterForm->getData();
+
+            $villes = $villeRepository->findVillesByTextSearch($filter);
+        } else {
+            $villes = $villeRepository->findAllOrderedByName();
+        }
 
         return $this->render('ville/manage.html.twig', [
             'villeForm' => $villeForm->createView(),
