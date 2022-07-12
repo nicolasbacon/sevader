@@ -1,43 +1,59 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Importer un CSV de participants</h2>
-    <p>Chaque attribut dans le fichier doit être séparé par un point-virgule.
-        Il faut revenir à la ligne après les titres et après chaque ligne de données.
-        Il ne faut pas laisser de lignes vides.
-        Le fichier doit être encodé en UTF-8</p>
-    <p>le fichier CSV doit être au format suivant : </p>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Email,</th>
-            <th scope="col">Nom,</th>
-            <th scope="col">Prenom,</th>
-            <th scope="col">Téléphone,</th>
-            <th scope="col">Campus</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>email,</td>
-            <td>nom,</td>
-            <td>prenom,</td>
-            <td>telephone,</td>
-            <td>campus</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="container manage-container">
+        <div class="row">
+            <h2>Importer un CSV de participants</h2>
+            <p>Chaque attribut dans le fichier doit être séparé par une virgule.
+                Il faut revenir à la ligne après les titres et après chaque ligne de données.
+                Il ne faut pas laisser de lignes vides.
+                Le fichier doit être encodé en UTF-8</p>
+            <p>le fichier CSV doit être au format suivant : </p>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Email,</th>
+                    <th scope="col">Nom,</th>
+                    <th scope="col">Prenom,</th>
+                    <th scope="col">Téléphone,</th>
+                    <th scope="col">Campus</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>email,</td>
+                    <td>nom,</td>
+                    <td>prenom,</td>
+                    <td>telephone,</td>
+                    <td>campus</td>
+                </tr>
+                </tbody>
+            </table>
 
-    <div>
-        {{ form_start(csvForm) }}
+            <div class="container">
+                <div class="row">
 
-        {{ form_widget(csvForm) }}
+                    <div class="col-sm-2">
+                        {{ form_start(csvForm) }}
+                        {{ form_row(csvForm.submitFile) }}
+                    </div>
+                    <div class="col-sm-6 mx-5">
+                        {{ form_row(csvForm) }}
+                        {{ form_end(csvForm) }}
 
-        {{ form_end(csvForm) }}
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="{{ path('main_home') }}">
+                            <button class="btn btn-main">Annuler</button>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
     </div>
-    <a href="{{ path('main_home') }}">
-        <button>Annuler</button>
-    </a>
+
 {% endblock %}
 
 {% block title %}

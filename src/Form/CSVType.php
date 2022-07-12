@@ -16,9 +16,13 @@ class CSVType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('csvFile',FileType::class)
+            ->add('csvFile',FileType::class,[
+                'attr' => ['class' => 'btn btn-main'],
+
+            ])
             ->add('submitFile',SubmitType::class,[
-                'label' => 'Créer les utilisateurs'
+                'label' => 'Créer les utilisateurs',
+                'attr' => ['class' => 'btn btn-main'],
             ])
         ;
     }
