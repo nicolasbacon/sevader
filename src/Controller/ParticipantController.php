@@ -147,7 +147,7 @@ class ParticipantController extends AbstractController
             throw $this->createNotFoundException("Oups, ce participant n'existe pas");
         }
 
-        return $this->render('participant/participant.html.twig', [
+        return $this->render('participant/show.html.twig', [
             'participant' => $participant,
         ]);
     }
