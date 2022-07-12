@@ -1,12 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ parent() }} | Créer une sortie
+    {{ parent() }} |
+    {% if sortie.id != null %}
+        Modifier une sortie
+    {% else %}
+        Créer une sortie
+    {% endif %}
 {% endblock %}
 
 {% block body %}
- <div class="container-bg">
-    <h2>Créer une sortie</h2>
+    {% if sortie.id != null %}
+        <h2>Modifier une sortie</h2>
+    {% else %}
+        <h2>Créer une sortie</h2>
+    {% endif %}
     {{ form_start(sortieForm) }}
 
     {{ form_row(sortieForm.nom) }}
@@ -21,10 +29,14 @@
     </div>
     <div class="lieu">
         {{ form_row(sortieForm.lieu) }}
-        <p id="lieuRue">Rue : {{ sortie.lieu.rue }}</p>
-        <p id="lieuCodePostal">Code Postal : {{ sortie.lieu.ville.codePostal }}</p>
-        <p id="lieuLatitude">Latitude : {{ sortie.lieu.latitude }}</p>
-        <p id="lieuLongitude">Longitude : {{ sortie.lieu.longitude }}</p>
+        <button id="addLieu" type="button">+</button>
+        {{ form_row(sortieForm.addLieu) }}
+        <div id="infosLieu">
+            <p id="lieuRue">Rue : {{ sortie.lieu.rue |default('') }}</p>
+            <p id="lieuCodePostal">Code Postal : {{ sortie.lieu.ville.codePostal |default('') }}</p>
+            <p id="lieuLatitude">Latitude : {{ sortie.lieu.latitude |default('') }}</p>
+            <p id="lieuLongitude">Longitude : {{ sortie.lieu.longitude |default('') }}</p>
+        </div>
     </div>
 
     {{ form_row(sortieForm.inscriptionAuto) }}
@@ -34,9 +46,9 @@
     {{ form_end(sortieForm) }}
 
     {% if sortie.id != null %}
-    <a href="{{ path('sortie_delete',{'id': sortie.id}) }}">
-        <button >Supprimer</button>
-    </a>
+        <a href="{{ path('sortie_delete',{'id': sortie.id}) }}">
+            <button>Supprimer</button>
+        </a>
     {% endif %}
     <a href="{{ path('main_home') }}">
         <button>Annuler</button>
@@ -87,8 +99,18 @@
                 }
             })
 
+            let addLieuVisible = false;
+            document.getElementById("addLieu").addEventListener("click", function (evt) {
+                if (addLieuVisible) {
+                    document.getElementById('sortie_addLieu').hidden = true;
+                    document.getElementById('infosLieu').hidden = false;
+                    addLieuVisible = false;
+                } else {
+                    document.getElementById('sortie_addLieu').hidden = false;
+                    document.getElementById('infosLieu').hidden = true;
+                    addLieuVisible = true;
+                }
+            });
         }
     </script>
-
- </div>
 {% endblock %}

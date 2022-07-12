@@ -8,10 +8,12 @@ use App\Entity\Ville;
 use App\Repository\VilleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -58,6 +60,14 @@ class SortieType extends AbstractType
                 'placeholder' => 'Lieu (Choisir une ville)',
                 'required' => false
             ])
+            ->add("addLieu", LieuType::class, [
+                'mapped' => false,
+                'label' => ' ',
+                'required' => false,
+                'attr' => [
+                    'hidden' => true,
+                ]
+            ])
 
             ->add('dateHeureDebut', DateTimeType::class, [
                 'label' => 'Date et heure de la sortie : ',
@@ -93,6 +103,7 @@ class SortieType extends AbstractType
                 'attr' => ['class' => 'submit'],
                 'label' => 'Publier'
             ])
+
         ;
 
         $formModifier = function (FormInterface $form, Ville $villes = null) {
