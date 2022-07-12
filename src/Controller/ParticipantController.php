@@ -11,6 +11,7 @@ use App\Repository\ParticipantRepository;
 use App\Service\AjoutParticipant;
 use App\Service\InscriptionService;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Form\FormError;
@@ -25,6 +26,55 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route('/participant', name: 'participant_')]
 class ParticipantController extends AbstractController
 {
+    #[Route('/list', name: 'list')]
+    public function list(ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
+    {
+        $participants = $participantRepository->findAllOrderedByName();
+
+        return $this->render('participant/list.html.twig', [
+            'participants' => $participants
+        ]);
+
+    }
+
+    #[Route('/delete/{id}', name: 'delete', requirements: ["id" => "\d+"])]
+    public function delete(ParticipantRepository $participantRepository, int $id): Response
+    {
+        $participant = $participantRepository->find($id);
+
+        if (!$participant) {
+            throw $this->createNotFoundException("Oups, ce participant n'existe pas");
+        }
+
+        $participantRepository->remove($participant, true);
+
+        $this->addFlash('success', 'Participant supprimé');
+
+        return $this->redirectToRoute('participant_list');
+    }
+
+    #[Route('/activation/{id}', name: 'activation', requirements: ["id" => "\d+"])]
+    public function inactivate(ParticipantRepository $participantRepository, int $id): Response
+    {
+        $participant = $participantRepository->find($id);
+
+        if (!$participant) {
+            throw $this->createNotFoundException("Oups, ce participant n'existe pas");
+        }
+        if ($participant->isActif()) {
+            $participant->setActif(false);
+        } else {
+            $participant->setActif(true);
+        }
+
+        $participantRepository->add($participant, true);
+
+        $this->addFlash('success', 'Participant désactivé');
+
+        return $this->redirectToRoute('participant_list');
+    }
+
+
     #[Route('/new', name: 'new')]
     public function new(ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
@@ -39,7 +89,7 @@ class ParticipantController extends AbstractController
                 $userPasswordHasher->hashPassword(
                     $participant,
                     $registrationForm->get('plainPassword')->getData()
-        ));
+                ));
 
             $participant->setActif(true);
             $participant->setRoles(["ROLE_USER"]);

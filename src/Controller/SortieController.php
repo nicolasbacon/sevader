@@ -159,7 +159,8 @@ class SortieController extends AbstractController
 
 
         return $this->render('sortie/new.html.twig', [
-            'sortieForm' => $sortieForm->createView()
+            'sortieForm' => $sortieForm->createView(),
+            'sortie'=> $sortie
         ]);
     }
 

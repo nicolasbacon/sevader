@@ -42,6 +42,12 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         }
     }
 
+    public function findAllOrderedByName(){
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
