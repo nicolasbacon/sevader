@@ -15,13 +15,14 @@ class FiltreTexteType extends AbstractType
         $builder
             ->add('search',SearchType::class,[
                 'required' => false,
-                'label' => 'Le nom contient'
+                'label' => 'Le nom contient',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('rechercher',SubmitType::class,[
-                'attr' => ['class' => 'submit'],
-                'label' => 'Rechercher'
-            ])
-        ;
+                'attr' => ['class' => 'submit btn btn-main'],
+                'label' => 'Rechercher',
+
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

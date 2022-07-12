@@ -1,16 +1,37 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Gérer les campus </h2>
-    <h3>Filtrer les campus</h3>
-    {{ form_start(filterForm) }}
-    {{ form_row(filterForm.search) }}
-    {{ form_row(filterForm.rechercher) }}
-    {{ form_end(filterForm) }}
 
+
+
+
+
+
+    <div class="container manage-container">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-6 text-center">
+                <h2>Gérer les campus </h2>
+                <h3>Filtrer les campus</h3>
+                {{ form_start(filterForm) }}
+                <br>
+                {{ form_row(filterForm.search) }}
+                <br>
+
+                {{ form_row(filterForm.rechercher) }}
+                <br>
+
+                {{ form_end(filterForm) }}
+
+
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
 
     <div class="container resultat-recherche">
         <div class="row">
+
 
 
             <div class="href">

@@ -455,5 +455,7 @@ justify-content: space-evenly;
         transform: translate(-50%, -50%) rotate(360deg);
     }
 }
-
-
+/*////////////////////////////////////MANAGE CONTAINER////////////////*/
+.manage-container{
+    font-family: 'Manrope', sans-serif;
+}
