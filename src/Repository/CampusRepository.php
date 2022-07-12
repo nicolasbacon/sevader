@@ -39,14 +39,32 @@ class CampusRepository extends ServiceEntityRepository
         }
     }
 
-   /* public function findMinId()
+    public function findCampusByTextSearch($filter): array
+    {
+        $qb = $this->createQueryBuilder('c');
+        if ($filter['search'] != null) {
+            $qb->andWhere('c.nom.nom LIKE LOWER(:search)')
+                ->setParameter('search', "%{$filter['search']}%");
+        }
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findAllOrderedByName(): array
     {
         return $this->createQueryBuilder('c')
-            ->orderBy('c.id','ASC')
-            ->setMaxResults(1)
+            ->orderBy('c.nom', 'ASC')
             ->getQuery()
             ->getResult();
-    }*/
+    }
+
+    /* public function findMinId()
+     {
+         return $this->createQueryBuilder('c')
+             ->orderBy('c.id','ASC')
+             ->setMaxResults(1)
+             ->getQuery()
+             ->getResult();
+     }*/
 
 //    /**
 //     * @return Campus[] Returns an array of Campus objects
