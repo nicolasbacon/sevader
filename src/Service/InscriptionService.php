@@ -24,6 +24,8 @@ class InscriptionService
         // Si la date de cloture est passer
         if ($sortie->getDateLimiteInscription() <= new \DateTime()) {
             $sortie->setEtat($this->etatCloture);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
         }
 
         if ($sortie->getEtat()->getLibelle() === "Ouverte") {
@@ -44,6 +46,8 @@ class InscriptionService
         // Si la date de cloture est passer
         if ($sortie->getDateLimiteInscription() <= new \DateTime()) {
             $sortie->setEtat($this->etatCloture);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
             throw new AccessDeniedException("Les inscriptions à cette sortie sont terminées");
         } else {
             $sortie->removeParticipant($participant);

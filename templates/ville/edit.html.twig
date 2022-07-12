@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | Modifier une ville
+{% endblock %}
+
+{% block body %}
+    <h2>Modifier la ville</h2>
+    {{ form_start(villeForm) }}
+
+    {{ form_row(villeForm.nom) }}
+
+    {{ form_row(villeForm.codePostal) }}
+
+    <button>Modifier</button>
+
+    {{ form_end(villeForm) }}
+
+{% endblock %}
+

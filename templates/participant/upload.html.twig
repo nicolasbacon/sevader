@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <h2 class="text-center">Importer un CSV de participants</h2>
+    <h2>Importer un CSV de participants</h2>
     <p>Chaque attribut dans le fichier doit être séparé par une virgule.
         Il faut revenir à la ligne après les titres et après chaque ligne de données.
         Il ne faut pas laisser de lignes vides.
@@ -37,12 +36,11 @@
         {{ form_end(csvForm) }}
     </div>
     <a href="{{ path('main_home') }}">
-        <button class="btn btn-main">Annuler</button>
+        <button>Annuler</button>
     </a>
 {% endblock %}
 
 {% block title %}
-    {{ parent() }} | Créer des utilisateurs par import
-
+    {{ parent() }} |Créer des utilisateurs par import
 {% endblock %}
 

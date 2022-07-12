@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\AnnulerSortieType;
 use App\Form\FiltreType;
@@ -9,6 +10,7 @@ use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,7 +74,16 @@ class SortieController extends AbstractController
         if (!$sortie) {
             throw $this->createNotFoundException("Oups, cette sortie n'existe pas");
         }
+
         $sortieForm = $this->createForm(SortieType::class, $sortie);
+
+        $sortieForm->get('ville')->setData($sortie->getLieu()->getVille());
+
+
+        $sortieForm->add('lieu', EntityType::class, [
+            'class' => Lieu::class,
+            'choices' => $sortie->getLieu()->getVille()->getLieux()->toArray(),
+        ]);
 
         $sortieForm->handleRequest($request);
 
@@ -94,7 +105,9 @@ class SortieController extends AbstractController
             } elseif ($sortieForm->get('publier')->isClicked()) {
                 $this->addFlash('success', 'Sortie publiée');
             }
-            return $this->redirectToRoute('main_home');
+            return $this->redirectToRoute('sortie_sortie', [
+                'id' => $sortie->getId(),
+            ]);
 
         }
         return $this->render('sortie/new.html.twig', [
