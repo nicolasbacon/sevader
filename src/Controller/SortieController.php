@@ -119,13 +119,19 @@ class SortieController extends AbstractController
     #[Route('/new', name: 'new')]
     public function new(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, ParticipantRepository $participantRepository): Response
     {
-
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
         $sortieForm->handleRequest($request);
 
+
+
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            if ($sortieForm->get('addLieu')->getData()) {
+                $lieu = $sortieForm->get('addLieu')->getData();
+                $sortie->setLieu($lieu);
+                $lieu->setVille($sortieForm->get('ville')->getData());
+            }
 
             //mettre l'état de la sortie créée à créée ou ouverte en fonction du submit utilisé
             if ($sortieForm->get('enregistrer')->isClicked()) {
