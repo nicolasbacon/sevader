@@ -6,6 +6,7 @@ use App\Entity\Ville;
 use App\Form\FiltreTexteType;
 use App\Form\VilleType;
 use App\Repository\VilleRepository;
+use App\Service\CommunesFrance;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,9 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class VilleController extends AbstractController
 {
     #[Route('/manage', name: 'manage')]
-    public function manage(Request $request, VilleRepository $villeRepository): Response
+    public function manage(CommunesFrance $communesFrance,Request $request, VilleRepository $villeRepository): Response
     {
 
+$communes = $communesFrance->getNomCommune();
+
+dump($communes);
 
         $ville = new Ville();
         $villeForm = $this->createForm(VilleType::class, $ville);
