@@ -1,7 +1,7 @@
 <div class="navbar-nav">
     <a class="nav-item nav-link active" href="{{ path('main_home') }}">ACCUEIL</a>
     {% if is_granted ("ROLE_ADMIN") %}
-    <a class="nav-item nav-link" href="#">VILLES</a>
+    <a class="nav-item nav-link" href="{{ path('ville_manage') }}">VILLES</a>
     <a class="nav-item nav-link" href="#">SITES</a>
     <a class="nav-item nav-link" href="{{ path('participant_list')}}">GERER PARTICIPANTS</a>
     <a class="nav-item nav-link" href="{{ path('participant_new') }}">NOUVEAU PARTICIPANT</a>

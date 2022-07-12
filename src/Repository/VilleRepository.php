@@ -39,6 +39,23 @@ class VilleRepository extends ServiceEntityRepository
         }
     }
 
+    public function findVillesByTextSearch($filter) : array
+    {
+        $qb = $this->createQueryBuilder('v');
+        if ($filter['search'] != null) {
+            $qb->andWhere('(v.nom LIKE LOWER(:search)) OR (v.codePostal LIKE LOWER(:search))')
+                ->setParameter('search', "%{$filter['search']}%");
+        }
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findAllOrderedByName() : array
+    {
+        return $this->createQueryBuilder('v')
+            ->orderBy('v.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Ville[] Returns an array of Ville objects
 //     */
@@ -63,4 +80,5 @@ class VilleRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 }

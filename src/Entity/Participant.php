@@ -53,7 +53,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
     private $sortiesInscrit;
 
-    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, cascade: ["remove"])]
     private $sortiesOrganisateur;
 
     #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'participants')]
@@ -94,7 +94,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -102,7 +102,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**

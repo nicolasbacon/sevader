@@ -38,8 +38,8 @@ class AjoutParticipant
         if (($handle = fopen($file->getPathname(), "r")) !== false) {
             // Read and process the lines.
             // Skip the first line if the file includes a header
-            fgetcsv($handle);
-            while (($data = fgetcsv($handle)) !== false) {
+            fgetcsv($handle,null,';');
+            while (($data = fgetcsv($handle,null,';')) !== false) {
                 // Do the processing: Map line to entity, validate if needed
                 $participant = new Participant();
                 // Assign fields

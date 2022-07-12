@@ -11,7 +11,6 @@ use App\Repository\ParticipantRepository;
 use App\Service\AjoutParticipant;
 use App\Service\InscriptionService;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Form\FormError;
@@ -20,8 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
-use Symfony\Component\Serializer\SerializerInterface;
+
 
 #[Route('/participant', name: 'participant_')]
 class ParticipantController extends AbstractController
@@ -132,9 +130,9 @@ class ParticipantController extends AbstractController
             $file = $csvForm->get('csvFile')->getData();
 
             $ajoutParticipant->ajouterParticipantCSV($file);
-
+            $this->addFlash('success', 'Participants ajoutés');
         }
-        $this->addFlash('success', 'Participants ajoutés');
+
         return $this->render('participant/upload.html.twig', [
             'csvForm' => $csvForm->createView()
         ]);
