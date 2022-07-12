@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Repository\VilleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -24,14 +25,17 @@ use Symfony\Component\Security\Core\Security;
 
 class SortieType extends AbstractType
 {
+
     private $security;
+    private $villeRepository;
 
     /**
      * @param $security
      */
-    public function __construct(Security $security)
+    public function __construct(Security $security,VilleRepository $villeRepository)
     {
         $this->security = $security;
+        $this->villeRepository = $villeRepository;
     }
 
 
@@ -112,6 +116,7 @@ class SortieType extends AbstractType
                 $formModifier($event->getForm()->getParent(), $ville);
             }
         );
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

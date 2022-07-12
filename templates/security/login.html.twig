@@ -3,7 +3,7 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="container" style="background-color: red">
         <div class="row">
             <div class="col-sm">
 
@@ -35,6 +35,7 @@
                             <input type="checkbox" name="_remember_me"> Se souvenir de moi
                         </label>
                     </div>
+                    <a href="{{ url('app_forgot_password_request') }}">Reset Password</a>
 
 
                     <button class="btn btn-lg btn-primary yellow-btn" type="submit">

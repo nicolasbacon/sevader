@@ -55,6 +55,7 @@
         </table>
         {% if sortie.etat.libelle == "Ouverte" %}
             <button class="btn btn-sortie mb-lg-3" id="inscription">S'inscrire</button>
+            <button class="btn btn-sortie mb-lg-3" id="desinscription">Se desister</button>
         {% endif %}
     </div>
                 <br>
@@ -67,19 +68,41 @@
                 .then(function (response){
                     return response.json();
                 }).then(function (data){
-                var participants = JSON.parse(data);
                 var refTable = document.getElementById('listParticipants');
-                for (let participant of participants) {
-                    console.log(participant.pseudo);
-                    var nouvelleLigne = refTable.insertRow();
+                refTable.children[1].innerHTML = '';
+                for (let participant of data) {
+                    var nouvelleLigne = refTable.children[1].insertRow();
 
-                    var nouvelleCellule = nouvelleLigne.insertCell(0);
-                    var nouveauTexte = document.createTextNode(participant.pseudo)
-                    nouvelleCellule.appendChild(nouveauTexte);
+                    var cellulePseudo = nouvelleLigne.insertCell(0);
+                    var pseudo = document.createTextNode(participant.pseudo.charAt(0).toUpperCase() + participant.pseudo.slice(1))
+                    cellulePseudo.appendChild(pseudo);
+
+                    var celluleNom = nouvelleLigne.insertCell(1);
+                    var nom = document.createTextNode(participant.nom.charAt(0).toUpperCase() + participant.nom.slice(1))
+                    celluleNom.appendChild(nom);
                 }
             });
         });
-        
+        document.getElementById('desinscription').addEventListener('click', function (evt) {
+            fetch("{{ url('participant_desinscription', {'id':sortie.id}) }}")
+                .then(function (response){
+                    return response.json();
+                }).then(function (data){
+                var refTable = document.getElementById('listParticipants');
+                refTable.children[1].innerHTML = '';
+                for (let participant of data) {
+                    var nouvelleLigne = refTable.children[1].insertRow();
+
+                    var cellulePseudo = nouvelleLigne.insertCell(0);
+                    var pseudo = document.createTextNode(participant.pseudo.charAt(0).toUpperCase() + participant.pseudo.slice(1))
+                    cellulePseudo.appendChild(pseudo);
+
+                    var celluleNom = nouvelleLigne.insertCell(1);
+                    var nom = document.createTextNode(participant.nom.charAt(0).toUpperCase() + participant.nom.slice(1))
+                    celluleNom.appendChild(nom);
+                }
+            });
+        });
     </script>
 {% endblock %}
 

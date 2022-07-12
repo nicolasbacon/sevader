@@ -19,10 +19,10 @@ class MainController extends AbstractController
         $filterForm = $this->createForm(FiltreType::class, null, ['csrf_protection' => false]);
         $filterForm->handleRequest($request);
 
-        if ($filterForm->isSubmitted()) {
+        if ($filterForm->isSubmitted() ) {
             $filters = $filterForm->getData();
 
-            $sorties = $sortieRepository->findFiltered($etatRepository, $filters);
+            $sorties = $sortieRepository->findFiltered( $filters);
         } else {
             $sorties = $sortieRepository->findAllOrderedBySites();
         }

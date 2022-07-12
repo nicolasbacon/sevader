@@ -3,13 +3,16 @@
     {% if is_granted ("ROLE_ADMIN") %}
     <a class="nav-item nav-link" href="#">VILLES</a>
     <a class="nav-item nav-link" href="#">SITES</a>
+    <a class="nav-item nav-link" href="{{ path('participant_list')}}">GERER PARTICIPANTS</a>
+    <a class="nav-item nav-link" href="{{ path('participant_new') }}">NOUVEAU PARTICIPANT</a>
+    <a class="nav-item nav-link" href="{{ path('participant_upload') }}">IMPORT CSV</a>
     {% endif %}
 
     {% if is_granted ("ROLE_USER") or is_granted ("ROLE_ADMIN") %}
     <a class="nav-item nav-link" href="{{ url('participant_editer_profil') }}">MON PROFIL</a>
     {% endif %}
 
-    {% if not is_granted ("ROLE_USER") or is_granted ("ROLE_ADMIN") %}
+    {% if not app.user %}
     <a class="nav-item nav-link" href="{{ path('app_login') }}">SE CONNECTER</a>
     {% endif %}
 
