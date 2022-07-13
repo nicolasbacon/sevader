@@ -28,7 +28,7 @@
                         {{ form_start(sortieForm) }}
                         {{ form_label(sortieForm.nom) }}
                     </div>
-                    <div class="col">
+                    <div class="col d-flex">
                         {{ form_widget(sortieForm.nom) }}
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                     <div class="col d-flex align-items-center">
                         {{ form_label(sortieForm.dateHeureDebut) }}
                     </div>
-                    <div class="col">
+                    <div class="col d-flex">
                         <span class="marginLeft">
                             {{ form_widget(sortieForm.dateHeureDebut) }}
                         </span>
@@ -56,7 +56,7 @@
                     <div class="col align-self-center">
                         {{ form_label(sortieForm.nbInscriptionMax) }}
                     </div>
-                    <div class="col">
+                    <div class="col d-flex">
                         <span class="marginLeft">
                         {{ form_widget(sortieForm.nbInscriptionMax) }}
                         </span>
@@ -67,8 +67,8 @@
                         {{ form_label(sortieForm.duree) }}
                     </div>
                     <div class="col">
-                        <span class="marginLeft">
-                        {{ form_widget(sortieForm.duree) }} <span>minutes</span>
+                        <span class="marginLeft d-flex">
+                        {{ form_widget(sortieForm.duree) }} <span class="align-self-center">min</span>
                         </span>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                     <div class="col align-self-center">
                         {{ form_label(sortieForm.infosSortie) }}
                     </div>
-                    <div class="col">
+                    <div class="col d-flex flex-column">
                         <span class="marginLeft">
                         {{ form_widget(sortieForm.infosSortie) }}
                         </span>
@@ -86,7 +86,7 @@
                     <div class="col align-self-center">
                         {{ form_label(sortieForm.inscriptionAuto) }}
                     </div>
-                    <div class="col">
+                    <div class="col d-flex justify-content-center align-self-center">
                         <span class="marginLeft">
                         {{ form_widget(sortieForm.inscriptionAuto) }}
                         </span>
@@ -110,23 +110,23 @@
                     <div class="col align-self-center">
                         {{ form_label(sortieForm.ville) }}
                     </div>
-                    <div class="col">
+                    <div class="col-10 col-md-9 col-lg-7 col-xl-6 mr-5 d-flex align-self-center">
                         <span class="marginLeft">
                         {{ form_widget(sortieForm.ville) }}
                         </span>
                     </div>
                 </div>
                 <div class="row my-3 d-flex">
-                    <div class="col d-flex align-items-center">
+                    <div class="col align-self-center">
                         {{ form_label(sortieForm.lieu) }}
                     </div>
-                    <div class="col align-self-center">
-                        <span class="marginLeft">
-                        {{ form_widget(sortieForm.lieu) }}
-                        </span>
-                    </div>
-                    <div class="col-2">
-                        <button id="addLieu" type="button" class="btn btn-creer-sortie">+</button>
+                    <div class="col-10 col-md-9 col-lg-7 col-xl-6 mr-5 d-flex align-self-center">
+                        <div class="input-group">
+                            {{ form_widget(sortieForm.lieu) }}
+                            <div class="input-group-append">
+                                <button id="addLieu" class="btn btn-outline-secondary btn-creer-sortie" type="button">+</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="divAddLieu" style="display: none">
@@ -173,13 +173,13 @@
             {% if sortie.id != null %}
                 <div class="col-auto">
                     <a href="{{ path('sortie_delete',{'id': sortie.id}) }}">
-                        <button>Supprimer</button>
+                        <button class="btn btn-creer-sortie btn-outline-secondary">Supprimer</button>
                     </a>
                 </div>
             {% endif %}
             <div class="col-auto">
                 <a href="{{ path('main_home') }}">
-                    <button class="btn btn-creer-sortie">Annuler</button>
+                    <button class="btn btn-creer-sortie btn-outline-secondary">Annuler</button>
                 </a>
             </div>
         </div>

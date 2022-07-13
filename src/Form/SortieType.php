@@ -46,6 +46,9 @@ class SortieType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 'label' => 'Nom de la sortie : ',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('ville', EntityType::class, [
                 'mapped' => false,
@@ -54,11 +57,17 @@ class SortieType extends AbstractType
                 'placeholder' => 'Ville',
                 'label' => 'Ville',
                 'required' => false,
+                'attr' => [
+                    'class' => "form-select"
+                ]
             ])
 
             ->add('lieu', ChoiceType::class, [
                 'placeholder' => 'Lieu (Choisir une ville)',
                 'required' => false,
+                'attr' => [
+                    'class' => "form-select"
+                ]
             ])
             ->add("addLieu", LieuType::class, [
                 'mapped' => false,
@@ -74,6 +83,10 @@ class SortieType extends AbstractType
             ])
             ->add('duree', NumberType::class, [
                 'label' => 'Durée de la sortie : ',
+                'html5' => true,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('dateLimiteInscription', DateType::class, [
                 'label' => 'Date limite d\'inscription : ',
@@ -82,9 +95,15 @@ class SortieType extends AbstractType
             ])
             ->add('nbInscriptionMax', NumberType::class, [
                 'label' => 'Nombre de places : ',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('infosSortie', TextareaType::class, [
                 'label' => 'Descriptions et infos : ',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('inscriptionAuto', CheckboxType::class, [
                 'label' => 'Voulez-vous vous inscrire à la sortie ? ',
@@ -93,11 +112,11 @@ class SortieType extends AbstractType
                 'required' => false,
             ])
             ->add('enregistrer', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-creer-sortie'],
+                'attr' => ['class' => 'btn btn-creer-sortie btn-outline-secondary'],
                 'label' => 'Enregistrer'
             ])
             ->add('publier', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-creer-sortie'],
+                'attr' => ['class' => 'btn btn-creer-sortie btn-outline-secondary'],
                 'label' => 'Publier'
             ])
 

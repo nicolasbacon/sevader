@@ -482,6 +482,12 @@ button.btn-creer-sortie {
     padding-bottom: 10px;
 
 }
+
+body {
+    background-image: url("../img/fond-de-site4.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 /*////////////////////////////////////MANAGE CONTAINER////////////////*/
 .manage-container{
     font-family: 'Manrope', sans-serif;
