@@ -80,6 +80,10 @@ class SortieType extends AbstractType
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
                 'html5' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                    'id' => 'datetimepickerExample'
+                ]
             ])
             ->add('duree', NumberType::class, [
                 'label' => 'Durée de la sortie : ',
@@ -92,9 +96,13 @@ class SortieType extends AbstractType
                 'label' => 'Date limite d\'inscription : ',
                 'widget' => 'single_text',
                 'html5' => true,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('nbInscriptionMax', NumberType::class, [
                 'label' => 'Nombre de places : ',
+                'html5' => true,
                 'attr' => [
                     'class' => 'form-control'
                 ]
