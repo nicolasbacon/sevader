@@ -138,7 +138,10 @@ class SortieType extends AbstractType
                 'required' => false,
                 'choice_label' => 'nom',
                 'placeholder' => 'Choisir un lieu',
-                'label' => 'Lieu'
+                'label' => 'Lieu',
+                'attr' => [
+                    'class' => "form-select"
+                ]
             ]);
         };
 
