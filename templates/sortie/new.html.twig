@@ -194,7 +194,6 @@
             // On va chercher la ville
             let ville = document.querySelector("#sortie_ville");
             ville.addEventListener("change", function () {
-                console.log(this.closest("form"));
                 let form = this.closest("form");
                 let data = this.name + "=" + this.value;
                 fetch(form.action, {
@@ -209,7 +208,6 @@
                         let content = document.createElement("html");
                         content.innerHTML = html;
                         let nouveauSelect = content.querySelector("#sortie_lieu");
-                        console.log(nouveauSelect);
                         document.querySelector("#sortie_lieu").replaceWith(nouveauSelect);
                     })
                     .catch(error => {
