@@ -8,7 +8,7 @@
             Il faut revenir à la ligne après les titres et après chaque ligne de données.
             Il ne faut pas laisser de lignes vides.</p>
         <p class="fw-bold"> Le fichier doit être encodé en UTF-8.</p>
-        <p>le fichier CSV doit être au format suivant : </p>
+        <p class="d-flex justify-content-center">le fichier CSV doit être au format suivant : </p>
         <div class="row w-50 g-0 ">
             <div class="table-responsive">
                 <table class="table table-sm">
@@ -34,22 +34,34 @@
             </div>
         </div>
 
-            {{ form_start(csvForm) }}
+        <div class="container">
+            <div class="row">
+                <div class="col-4 "></div>
+                <div class="col-4 p-3 ">
+                    {{ form_start(csvForm) }}
 
-            <div class="col-sm-6 p-4">
-                {{ form_row(csvForm.csvFile) }}
-            </div>
-            <div class="col-sm-4 mx-6 d-flex justify-content-center">
-                <div class="p-2">
-                    {{ form_row(csvForm.submitFile) }}
-                    {{ form_end(csvForm) }}
+
+                    {{ form_row(csvForm.csvFile) }}
                 </div>
-                <div class="p-2">
-                    <a href="{{ path('main_home') }}">
-                        <button class="btn btn-main">Annuler</button>
-                    </a>
-                </div>
+                <div class="col-4 "></div>
             </div>
+            <div class="row">
+                <div class="col-4 "></div>
+                <div class="col-4 d-flex justify-content-center">
+                    <div class="p-2">
+                        {{ form_row(csvForm.submitFile) }}
+                        {{ form_end(csvForm) }}
+                    </div>
+                    <div class="p-2">
+                        <a href="{{ path('main_home') }}">
+                            <button class="btn btn-main">Annuler</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-4 "></div>
+            </div>
+        </div>
+
 
     </div>
 
