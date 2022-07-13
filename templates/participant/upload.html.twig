@@ -1,62 +1,61 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container manage-container">
-        <div class="row">
-            <h2>Importer un CSV de participants</h2>
-            <p>Chaque attribut dans le fichier doit être séparé par une virgule.
-                Il faut revenir à la ligne après les titres et après chaque ligne de données.
-                Il ne faut pas laisser de lignes vides.
-                Le fichier doit être encodé en UTF-8</p>
-            <p>le fichier CSV doit être au format suivant : </p>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Email,</th>
-                    <th scope="col">Nom,</th>
-                    <th scope="col">Prenom,</th>
-                    <th scope="col">Téléphone,</th>
-                    <th scope="col">Campus</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>email,</td>
-                    <td>nom,</td>
-                    <td>prenom,</td>
-                    <td>telephone,</td>
-                    <td>campus</td>
-                </tr>
-                </tbody>
-            </table>
+<div class="container manage-container">
+    <div class="row d-flex justify-content-center">
+        <h2>Importer un CSV de participants</h2>
+        <p>Chaque attribut dans le fichier doit être séparé par un point virgule.
+            Il faut revenir à la ligne après les titres et après chaque ligne de données.
+            Il ne faut pas laisser de lignes vides.</p>
+        <p class="fw-bold"> Le fichier doit être encodé en UTF-8.</p>
+        <p>le fichier CSV doit être au format suivant : </p>
+        <div class="row w-50 g-0 ">
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                    <tr>
+                        <th class="p-0 m-0" scope="col">Email;</th>
+                        <th class="p-0 m-0" scope="col">Nom;</th>
+                        <th class="p-0 m-0" scope="col">Prenom;</th>
+                        <th class="p-0 m-0" scope="col">Téléphone;</th>
+                        <th class="p-0 m-0" scope="col">Campus</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="p-0 m-0">email;</td>
+                        <td class="p-0 m-0">nom;</td>
+                        <td class="p-0 m-0">prenom;</td>
+                        <td class="p-0 m-0">telephone;</td>
+                        <td class="p-0 m-0">campus</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-            <div class="container">
-                <div class="row">
+            {{ form_start(csvForm) }}
 
-                    <div class="col-sm-2">
-                        {{ form_start(csvForm) }}
-                        {{ form_row(csvForm.submitFile) }}
-                    </div>
-                    <div class="col-sm-6 mx-5">
-                        {{ form_row(csvForm) }}
-                        {{ form_end(csvForm) }}
-
-                    </div>
-                    <div class="col-sm-2">
-                        <a href="{{ path('main_home') }}">
-                            <button class="btn btn-main">Annuler</button>
-                        </a>
-                    </div>
-
+            <div class="col-sm-6 p-4">
+                {{ form_row(csvForm.csvFile) }}
+            </div>
+            <div class="col-sm-4 mx-6 d-flex justify-content-center">
+                <div class="p-2">
+                    {{ form_row(csvForm.submitFile) }}
+                    {{ form_end(csvForm) }}
                 </div>
-
+                <div class="p-2">
+                    <a href="{{ path('main_home') }}">
+                        <button class="btn btn-main">Annuler</button>
+                    </a>
+                </div>
             </div>
 
     </div>
 
-{% endblock %}
+    {% endblock %}
 
-{% block title %}
-    {{ parent() }} |Créer des utilisateurs par import
-{% endblock %}
+    {% block title %}
+        {{ parent() }} |Créer des utilisateurs par import
+    {% endblock %}
 
