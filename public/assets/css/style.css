@@ -112,6 +112,20 @@ footer{
     filter: grayscale(100%);
 }
 
+.profile-picture-size-up{
+    border-radius: 50px;
+    margin: 4px 0px 3px 0px;
+    height: 150px;
+    width: 150px;
+    border: solid 2px #ffc15a;
+
+}
+
+.profile-picture-size-up:hover{
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
+
 
 
 

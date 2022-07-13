@@ -31,13 +31,17 @@
                             <td>{{ participant.campus.nom|capitalize }}</td>
                             <td>
                                 {% if participant.actif %}
-                                    <a class="ps-1"
-                                       href="{{ path('participant_activation', {'id': participant.id }) }}">Désactiver</a>
+                                    <button class="ps-1 btn btn-outline-secondary "><a class="ps-1"
+                                                                                       href="{{ path('participant_activation', {'id': participant.id }) }}">Désactiver</a>
+                                    </button>
                                 {% else %}
-                                    <a class="ps-1"
-                                       href="{{ path('participant_activation', {'id': participant.id }) }}">Activer</a>
+                                    <button class="ps-1 btn btn-outline-secondary "><a class="ps-1"
+                                                                                       href="{{ path('participant_activation', {'id': participant.id }) }}">Activer</a>
+                                    </button>
                                 {% endif %}
-                                <a class="ps-1" href="{{ path('participant_delete', {'id': participant.id }) }}">Supprimer</a>
+                                <button class="ps-1 btn btn-outline-secondary "><a class="ps-1"
+                                                                                   href="{{ path('participant_delete', {'id': participant.id }) }}">Supprimer</a>
+                                </button>
                             </td>
                         </tr>
                     {% endfor %}

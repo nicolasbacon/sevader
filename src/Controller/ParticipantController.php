@@ -91,6 +91,7 @@ class ParticipantController extends AbstractController
                     $registrationForm->get('plainPassword')->getData()
                 ));
 
+            $participant->setAvatar("avatar-default.jpg");
             $participant->setActif(true);
             $participant->setRoles(["ROLE_USER"]);
             $participant->setPseudo($participant->getNom() . "." . $participant->getPrenom());

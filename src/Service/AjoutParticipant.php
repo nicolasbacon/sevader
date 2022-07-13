@@ -51,6 +51,7 @@ class AjoutParticipant
                 $participant->setRoles(['ROLE_USER']);
                 $participant->setActif(true);
                 $participant->setPseudo($participant->getPrenom() . '.' . $participant->getNom());
+                $participant->setAvatar("avatar-default.jpg");
                 $participant->setPassword($this->userPasswordHasher->hashPassword(
                     $participant,
                     'azerty'

@@ -3,15 +3,18 @@
 {% block title %}Participant{% endblock %}
 
 {% block body %}
-
-
+    <h1 class="text-center p-3">Participant</h1>
     <div class="container manage-container">
-    <div class="row">
-    <div class="col-sm-2">
 
+    <div class="row">
+    <div class="col-sm-2"></div>
+
+    <div class="col-sm-4 d-flex justify-content-center align-items-center">
+        <img class="profile-picture-size-up rounded-circle" src="{{ asset('assets/img/avatar/' ~ app.user.avatar) }}" alt="">
     </div>
-    <div class="col-sm-6 mx-2">
-    <h1 class="text-center">Participant</h1>
+    <div class="col-sm-4 mx-2">
+
+
     <table class="table profile">
         <tbody>
         <tr>
@@ -32,15 +35,12 @@
         </tr>
         </tbody>
     </table>
-    {% if app.user.id == participant.id %}
 
+    {% if app.user.id == participant.id %}
         <button class="btn btn-lg btn-primary yellow-btn" type="submit">
             <a href="{{ path('participant_editer_profil', {'id': participant.id}) }}">Modifier mon profil</a>
         </button>
-        </div>
-
-        <div class="col-sm-2">
-
+        <div class="col-sm-2"></div>
         </div>
         </div>
         </div>

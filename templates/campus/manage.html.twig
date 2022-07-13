@@ -42,8 +42,12 @@
                         <th scope="row">{{ campus.nom|title }}</th>
                         <td>
 
-                            <a class="ps-1" href="{{ path('campus_edit',{'id': campus.id}) }}">Modifier</a>
-                            <a class="ps-1" href="{{ path('campus_delete',{'id': campus.id}) }}">Supprimer</a>
+                            <button class="ps-1 btn btn-outline-secondary "><a class="ps-1"
+                                                                               href="{{ path('campus_edit',{'id': campus.id}) }}">Modifier</a>
+                            </button>
+                            <button class="ps-1 btn btn-outline-secondary "><a class="ps-1"
+                                                                               href="{{ path('campus_delete',{'id': campus.id}) }}">Supprimer</a>
+                            </button>
                         </td>
                     </tr>
                 {% endfor %}
@@ -53,7 +57,7 @@
                         {{ form_row(campusForm.nom) }}
                     </td>
                     <td>
-                        <button  class="btn btn-main">Ajouter</button>
+                        <button class="btn btn-main">Ajouter</button>
                     </td>
                     {{ form_end(campusForm) }}
                 </tr>
