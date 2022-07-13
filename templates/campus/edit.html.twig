@@ -5,14 +5,26 @@
 {% endblock %}
 
 {% block body %}
-    <h2>Modifier le campus</h2>
-    {{ form_start(campusForm) }}
+    <div class="container manage-container">
+        <div class="row">
+            <div class="col-sm-2">
 
-    {{ form_row(campusForm.nom) }}
+            </div>
+            <div class="col-sm-6 text-center">
+                <h2 class="text-center p-3">Modifier le campus</h2>
 
-    <button>Modifier</button>
-
-    {{ form_end(campusForm) }}
+                {{ form_start(campusForm) }}
+                <div class="d-flex justify-content-evenly  align-items-center p-3   ">
+                    {{ form_label(campusForm.nom, 'Nom du campus :') }}
+                    {{ form_row(campusForm.nom) }}
+                </div>
+                <div class="p-4">
+                <button class="btn btn-main">Modifier</button>
+                </div>
+                {{ form_end(campusForm) }}
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 

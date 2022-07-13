@@ -15,7 +15,8 @@ class CampusType extends AbstractType
     {
         $builder
             ->add('nom',TextType::class,[
-                'label'=> false
+                'label'=> false,
+                'attr' => ['class' => 'form-control col-sm-4'],
             ])
 
         ;

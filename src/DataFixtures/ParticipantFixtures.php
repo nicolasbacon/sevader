@@ -21,14 +21,14 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr_FR');
+       /* $faker = Factory::create('fr_FR');
         $listCampus = $manager->getRepository(Campus::class)->findAll();
 
         foreach ($listCampus as $campus) {
-            for ($i = 0; $i < 10; $i++) {
+            for ($i = 0; $i < 20; $i++) {
                 $participant = new Participant();
                 $participant->setPassword($this->passwordHasher->hashPassword($participant, "azerty"));
-                $participant->setNom($faker->name);
+                $participant->setNom($faker->lastName);
                 $participant->setActif(true);
                 $participant->setEmail($faker->email);
                 $participant->setPseudo($faker->userName);
@@ -38,7 +38,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
 
                 $manager->persist($participant);
             }
-        }
+        }*/
 
 //        $manager->flush();
     }

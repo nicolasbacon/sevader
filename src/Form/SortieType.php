@@ -129,7 +129,7 @@ class SortieType extends AbstractType
                 'choices' => $lieux->toArray(),
                 'required' => false,
                 'choice_label' => 'nom',
-                'placeholder' => 'Lieu (Choisir une ville)',
+                'placeholder' => 'Choisir un lieu',
                 'label' => 'Lieu'
             ]);
         };

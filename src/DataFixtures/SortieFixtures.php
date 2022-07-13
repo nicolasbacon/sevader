@@ -25,11 +25,11 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         foreach ($listCampus as $campus) {
             for ($i = 0; $i < 5; $i++) {
                 $sortie = new Sortie();
-                $sortie->setNom($faker->sentence(6, true));
+                $sortie->setNom($faker->word);
                 $sortie->setDateHeureDebut($faker->dateTimeThisMonth);
                 $sortie->setDuree($faker->numberBetween(0,600));
                 $sortie->setDateLimiteInscription($faker->dateTimeBetween('-3 months', $sortie->getDateHeureDebut()));
-                $sortie->setNbInscriptionMax($faker->numberBetween(3,5));
+                $sortie->setNbInscriptionMax($faker->numberBetween(5,15));
                 $sortie->setInfosSortie("Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte.");
                 $sortie->setCampus($campus);
                 $sortie->setEtat($faker->randomElement($listEtat));
@@ -38,7 +38,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
                 $listParticipant = $manager->getRepository(Participant::class)->findBy(['campus' => $campus]);
                 $sortie->setOrganisateur($faker->randomElement($listParticipant));
 
-                for ($i = 0; $i < sizeof($listParticipant); $i++) {
+                for ($i = 0; $i < 5; $i++) {
                     $sortie->addParticipant($listParticipant[$i]);
                 }
 
