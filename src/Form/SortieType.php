@@ -102,6 +102,7 @@ class SortieType extends AbstractType
             ])
             ->add('nbInscriptionMax', NumberType::class, [
                 'label' => 'Nombre de places : ',
+                'html5' => true,
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -137,7 +138,10 @@ class SortieType extends AbstractType
                 'required' => false,
                 'choice_label' => 'nom',
                 'placeholder' => 'Choisir un lieu',
-                'label' => 'Lieu'
+                'label' => 'Lieu',
+                'attr' => [
+                    'class' => "form-select"
+                ]
             ]);
         };
 

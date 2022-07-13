@@ -10,22 +10,22 @@
             <div class="badge-profile row highlight">
 
 
-            <div class="col-md-4">
-                <img class="profile-picture" src="{{ asset('assets/img/avatar/' ~ app.user.avatar) }}" alt="">
-            </div>
+                <div class="col-md-4">
+                    <img class="profile-picture" src="{{ asset('assets/img/avatar/' ~ app.user.avatar) }}" alt="">
+                </div>
 
 
-            <div class="col-md-4">
-                <p>Participant : {{ app.user.pseudo }}</p>
-            </div>
-            <div class="col-md-4">
-                <p>Date du jour : {{ "now"|date("m/d/Y") }}</p>
-            </div>
+                <div class="col-md-4">
+                    <p>Participant : {{ app.user.pseudo }}</p>
+                </div>
+                <div class="col-md-4">
+                    <p>Date du jour : {{ "now"|date("m/d/Y") }}</p>
+                </div>
 
-            {#
-            #}{# RENDRE LE BADGE CLICKABLE #}{#
-            <a href="#" class="stretched-link"></a> #}
-        </div>
+                {#
+                #}{# RENDRE LE BADGE CLICKABLE #}{#
+                <a href="#" class="stretched-link"></a> #}
+            </div>
         </a>
     {% endif %}
 
@@ -68,85 +68,97 @@
     {# TABLEAU #}
     <div class="container resultat-recherche mx-6">
         <div class="row">
-            <div class="href">
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">Nom de la sortie</th>
-                        <th scope="col">Date de la sortie</th>
-                        <th scope="col">Clôture des inscriptions</th>
-                        <th scope="col">Inscrits/places totales</th>
-                        <th scope="col">Etat</th>
-                        <th scope="col">Inscrit</th>
-                        <th scope="col">Organisateur</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for sortie in sorties %}
-                        {% if not (sortie.etat.libelle == 'Archivée') %}
-                            <tr>
-                                <th scope="row">{{ sortie.nom|capitalize }}</th>
-                                <td>{{ sortie.dateHeureDebut|date('d/m/Y h:i') }}</td>
-                                {% if not (sortie.etat.libelle == 'Annulée') %}
-                                    <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
-                                    <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
-                                {% else %}
-                                    <td>Sortie annulée</td>
-                                    <td>Sortie annulée</td>
+
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Nom de la sortie</th>
+                    <th scope="col">Date de la sortie</th>
+                    <th scope="col">Clôture des inscriptions</th>
+                    <th scope="col">Inscrits/places totales</th>
+                    <th scope="col">Etat</th>
+                    <th scope="col">Inscrit</th>
+                    <th scope="col">Organisateur</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for sortie in sorties %}
+                    {% if not (sortie.etat.libelle == 'Archivée') %}
+                        <tr>
+                            <th scope="row">{{ sortie.nom|capitalize }}</th>
+                            <td>{{ sortie.dateHeureDebut|date('d/m/Y h:i') }}</td>
+                            {% if not (sortie.etat.libelle == 'Annulée') %}
+                                <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
+                                <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
+                            {% else %}
+                                <td>Sortie annulée</td>
+                                <td>Sortie annulée</td>
+                            {% endif %}
+                            <td>{{ sortie.etat.libelle }}</td>
+                            <td>
+                                {% if app.user in sortie.participants %}
+                                    X
                                 {% endif %}
-                                <td>{{ sortie.etat.libelle }}</td>
-                                <td>
-                                    {% if app.user in sortie.participants %}
-                                        X
+                            </td>
+                            <td>
+                                {% if sortie.organisateur == app.user %}
+                                    <a class="ps-1"
+                                       href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.pseudo }}</a>
+                                {% else %}
+                                    <a class="ps-1"
+                                       href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if app.user %}
+                                    {% if (sortie.etat.libelle in ['Ouverte','Cloturée']) %}
+                                        <button class="ps-1 btn btn-outline-secondary "><a class="ps-1"
+                                                                                           href="{{ path('sortie_sortie', {'id': sortie.id }) }}">Afficher</a>
+                                        </button>
                                     {% endif %}
-                                </td>
-                                <td>
-                                    {% if sortie.organisateur == app.user %}
-                                        <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.pseudo }}</a>
-                                    {% else %}
-                                        <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if app.user %}
-                                        {% if (sortie.etat.libelle in ['Ouverte','Cloturée']) %}
-                                            <a href="{{ path('sortie_sortie', {'id': sortie.id }) }}">Afficher</a>
-                                        {% endif %}
-                                        {% if not (sortie.etat.libelle in ['Annulée','Passée']) %}
-                                            {% if app.user in sortie.participants %}
-                                                {% if  (sortie.dateLimiteInscription > "now" ) and not (sortie.etat.libelle == 'Cloturée')  %}
-                                                    <button id="desinscription" onclick="desinscrire({{ sortie.id }})">
-                                                        Se désister
-                                                    </button>
-                                                {% endif %}
-                                            {% else %}
-                                                {% if not (sortie.etat.libelle in ['Cloturée','Activité en cours']) %}
-                                                    <button id="inscription" onclick="inscrire({{ sortie.id }})">
-                                                        S'inscrire
-                                                    </button>
-                                                {% endif %}
+                                    {% if not (sortie.etat.libelle in ['Annulée','Passée']) %}
+                                        {% if app.user in sortie.participants %}
+                                            {% if  (sortie.dateLimiteInscription > "now" )  %}
+                                                <button class="ps-1 btn btn-outline-secondary " id="desinscription"
+                                                        onclick="desinscrire({{ sortie.id }})">
+                                                    Se désister
+                                                </button>
                                             {% endif %}
-                                            {% if sortie.organisateur == app.user %}
-                                                {% if sortie.etat.libelle == 'Créée' %}
-                                                    <a href="{{ path('sortie_edit',{'id': sortie.id }) }}">Modifier</a>
-                                                    <a href="{{ path('sortie_published',{'id': sortie.id }) }}">Publier</a>
-                                                {% endif %}
-                                            {% endif %}
-                                            {% if sortie.organisateur == app.user or is_granted ("ROLE_ADMIN") %}
-                                                {% if (sortie.etat.libelle in ['Ouverte','Cloturée']) %}
-                                                    <a href="{{ path('sortie_cancel',{'id': sortie.id }) }}">Annuler</a>
-                                                {% endif %}
+                                        {% else %}
+                                            {% if not (sortie.etat.libelle in ['Cloturée','Activité en cours']) %}
+                                                <button class="ps-1 btn btn-outline-secondary " id="inscription"
+                                                        onclick="inscrire({{ sortie.id }})">
+                                                    S'inscrire
+                                                </button>
                                             {% endif %}
                                         {% endif %}
+                                        {% if sortie.organisateur == app.user %}
+                                            {% if sortie.etat.libelle == 'Créée' %}
+                                                <button class="ps-1 btn btn-outline-secondary "><a class="ps-1"
+                                                                                                   href="{{ path('sortie_edit',{'id': sortie.id }) }}">Modifier</a>
+                                                </button>
+                                                <button class="ps-1 btn btn-outline-secondary "><a class="ps-1"
+                                                                                                   href="{{ path('sortie_published',{'id': sortie.id }) }}">Publier</a>
+                                                </button>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if sortie.organisateur == app.user or is_granted ("ROLE_ADMIN") %}
+                                            {% if (sortie.etat.libelle in ['Ouverte','Cloturée']) %}
+                                                <button class="ps-1 btn btn-outline-secondary "><a class="ps-1"
+                                                                                                   href="{{ path('sortie_cancel',{'id': sortie.id }) }}">Annuler</a>
+                                                </button>
+                                            {% endif %}
+                                        {% endif %}
                                     {% endif %}
-                                </td>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+
         </div>
     </div>
 
@@ -223,7 +235,7 @@
         };
 
         // Events
-        document.querySelectorAll('.highlight').forEach( el => el.addEventListener( 'mousedown', start ));
-        document.addEventListener( 'mouseup', stop );
+        document.querySelectorAll('.highlight').forEach(el => el.addEventListener('mousedown', start));
+        document.addEventListener('mouseup', stop);
     </script>
 {% endblock %}
