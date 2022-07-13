@@ -42,8 +42,8 @@
                         <th scope="row">{{ campus.nom|title }}</th>
                         <td>
 
-                            <a href="{{ path('campus_edit',{'id': campus.id}) }}">Modifier</a>
-                            <a href="{{ path('campus_delete',{'id': campus.id}) }}">Supprimer</a>
+                            <a class="ps-1" href="{{ path('campus_edit',{'id': campus.id}) }}">Modifier</a>
+                            <a class="ps-1" href="{{ path('campus_delete',{'id': campus.id}) }}">Supprimer</a>
                         </td>
                     </tr>
                 {% endfor %}
