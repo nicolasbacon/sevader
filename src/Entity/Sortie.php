@@ -61,7 +61,7 @@ class Sortie
     private $etat;
 
     #[ORM\ManyToOne(targetEntity: Lieu::class, cascade: ["persist"], inversedBy: 'sorties')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private $lieu;
 
     #[Assert\Length(min: 10, max: 4000,maxMessage: 'Ce motif est trop long', minMessage: 'ce motif est trop court') ]

@@ -114,9 +114,9 @@
                                 </td>
                                 <td>
                                     {% if sortie.organisateur == app.user %}
-                                        <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.nom }}</a>
+                                        <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.pseudo }}</a>
                                     {% else %}
-                                        <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.nom }}</a>
+                                        <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a>
                                     {% endif %}
                                 </td>
                                 <td>

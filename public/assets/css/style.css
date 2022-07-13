@@ -353,6 +353,13 @@ justify-content: space-evenly;
 .sortie-background{
     background-color: #ffc15a;
 }
+@media only screen and (min-width: 1000px) {
+    .map{
+        height: 300px;
+        background-color: grey;
+    }
+}
+
 
 
 /*//////////////////////////////////////////LOGO//////////////*/
