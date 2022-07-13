@@ -5,7 +5,7 @@
     <br>
 
     {% if is_granted ("ROLE_USER") or is_granted ("ROLE_ADMIN") %}
-        <a href="{{ url('participant_editer_profil') }}">
+        <a class="badge-link" href="{{ url('participant_editer_profil') }}">
 
             <div class="badge-profile row highlight">
 

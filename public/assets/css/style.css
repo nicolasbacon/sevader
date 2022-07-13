@@ -457,15 +457,15 @@ justify-content: space-evenly;
     border-radius: 21px;
 }
 .highlight:before {
-    border-top: 1px solid darkkhaki;
-    border-right: 1px solid darkkhaki;
+    border-top: 4px solid #3c3f41;
+    border-right: 4px solid #3c3f41;
     transition: width 0.1s ease 0.3s, height 0.1s ease 0.2s, visibility 0s 0.4s;
     top: 0;
     left: 0;
 }
 .highlight:after {
-    border-left: 2px solid #9a8c0f;
-    border-bottom: 2px solid darkkhaki;
+    border-left: 4px solid #3c3f41;
+    border-bottom: 4px solid #3c3f41;
     bottom: 0;
     right: 0;
     transition: width 0.1s ease 0.1s, height 0.1s ease, visibility 0s 0.2s;
@@ -486,3 +486,4 @@ justify-content: space-evenly;
 .highlight:hover:after {
     transition: width 0.1s ease 0.2s, height 0.1s ease 0.3s, visibility 0s 0.2s;
 }
+.badge-profile{}
