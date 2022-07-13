@@ -14,11 +14,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 #[Route('/participant', name: 'participant_')]
@@ -153,7 +155,7 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/edit', name: 'editer_profil', methods: ['GET', 'POST'])]
-    public function edit(Request $request, ParticipantRepository $participantRepository, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function edit(Request $request, ParticipantRepository $participantRepository, UserPasswordHasherInterface $userPasswordHasher, SluggerInterface $slugger): Response
     {
         $participant = $this->getUser();
         if (!$participant)
@@ -164,6 +166,36 @@ class ParticipantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            /*/////////////////////TROP JEUNE POUR MOURIR//////////////////////////*/
+
+            $avatarFile = $form->get('avatar')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($avatarFile) {
+                $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $avatarFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $avatarFile->move(
+                        $this->getParameter('avatar_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $participant->setAvatar($newFilename);
+            }
+            /*/////////////////////TRROP VIEUX POUR PETER LE CODE////////////////////*/
+
+
             $plainPassword = $form->get('actualPassword')->getData();
             if ($plainPassword != null) {
                 if (!$userPasswordHasher->isPasswordValid($participant, $plainPassword)) {
@@ -193,6 +225,8 @@ class ParticipantController extends AbstractController
             'participant' => $participant,
             'form' => $form,
         ]);
+
+
     }
 
     #[Route('/inscription/{id}', name: 'inscription')]
@@ -216,4 +250,6 @@ class ParticipantController extends AbstractController
         }
         return $this->json($array, 200, [], ['groups' => 'test']);
     }
+
+
 }
