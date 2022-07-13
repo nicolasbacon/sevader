@@ -13,6 +13,7 @@
 
 
     {% if is_granted ("ROLE_USER") or is_granted ("ROLE_ADMIN") %}
+        <a href="{{ url('participant_editer_profil') }}">
         <div class="badge-profile row">
 
 
@@ -31,6 +32,7 @@
             #}{# RENDRE LE BADGE CLICKABLE #}{#
             <a href="#" class="stretched-link"></a> #}
         </div>
+        </a>
     {% endif %}
 
     {# FILTRE #}
@@ -112,9 +114,9 @@
                                 </td>
                                 <td>
                                     {% if sortie.organisateur == app.user %}
-                                        <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.nom }}</a>
+                                        <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.pseudo }}</a>
                                     {% else %}
-                                        <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.nom }}</a>
+                                        <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a>
                                     {% endif %}
                                 </td>
                                 <td>

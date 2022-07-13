@@ -24,10 +24,10 @@ class Ville
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 5,max: 5,exactMessage: 'Un code postal comporte exactement {{limit}} chiffres')]
+    #[Assert\Length(min: 5,max: 5,exactMessage: 'Un code postal comporte exactement 5 chiffres')]
     private $codePostal;
 
-    #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class)]
+    #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class, cascade: ["remove"] )]
     private $lieux;
 
     public function __construct()
