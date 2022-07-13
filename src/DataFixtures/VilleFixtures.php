@@ -11,7 +11,7 @@ class VilleFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr_FR');
+      /*  $faker = Factory::create('fr_FR');
 
         for ($i = 0; $i <= 5; $i++) {
             $ville = new Ville();
@@ -19,7 +19,7 @@ class VilleFixtures extends Fixture
             $ville->setCodePostal($faker->postcode);
 
             $manager->persist($ville);
-        }
+        }*/
 //        $manager->flush();
     }
 }

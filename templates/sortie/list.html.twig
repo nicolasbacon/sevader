@@ -103,9 +103,9 @@
                                 </td>
                                 <td>
                                     {% if sortie.organisateur == app.user %}
-                                        <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.nom }}</a>
+                                        <a href="{{ path('participant_editer_profil') }}">{{ sortie.organisateur.pseudo }}</a>
                                     {% else %}
-                                        <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.nom }}</a>
+                                        <a href="{{ path('participant_participant', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a>
                                     {% endif %}
                                 </td>
                                 <td>
@@ -115,13 +115,13 @@
                                         {% endif %}
                                         {% if not (sortie.etat.libelle in ['Annulée','Passée']) %}
                                             {% if app.user in sortie.participants %}
-                                                {% if not (sortie.etat.libelle == 'Cloturée') %}
+                                                {% if  (sortie.dateLimiteInscription > "now" ) and not (sortie.etat.libelle == 'Cloturée')  %}
                                                     <button id="desinscription" onclick="desinscrire({{ sortie.id }})">
                                                         Se désister
                                                     </button>
                                                 {% endif %}
                                             {% else %}
-                                                {% if not (sortie.etat.libelle == 'Cloturée') %}
+                                                {% if not (sortie.etat.libelle in ['Cloturée','Activité en cours']) %}
                                                     <button id="inscription" onclick="inscrire({{ sortie.id }})">
                                                         S'inscrire
                                                     </button>
