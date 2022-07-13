@@ -1,25 +1,19 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
-
-
-
-
-
     {# BADGE #}
-
     {# DATE ET NOM A DROITE Y #}
     <br>
 
-
     {% if is_granted ("ROLE_USER") or is_granted ("ROLE_ADMIN") %}
-        <a href="{{ url('participant_editer_profil') }}">
-        <div class="badge-profile row">
+        <a class="badge-link" href="{{ url('participant_editer_profil') }}">
+
+            <div class="badge-profile row highlight">
 
 
             <div class="col-md-4">
-                <img class="profile-picture" src="{{ asset('assets/img/profile.png') }}" alt="">
+                <img class="profile-picture" src="{{ asset('assets/img/avatar/' ~ app.user.avatar) }}" alt="">
             </div>
+
 
             <div class="col-md-4">
                 <p>Participant : {{ app.user.pseudo }}</p>
@@ -62,8 +56,6 @@
 
                 </div>
                 {{ form_row(filterForm.ended, {'attr': {'class': 'ended form-check-input'}}) }}
-
-
             </div>
 
             <div class="col-md-3">
@@ -73,11 +65,8 @@
 
         </div>
     </div>
-
-
     {# TABLEAU #}
-
-    <div class="container resultat-recherche">
+    <div class="container resultat-recherche mx-6">
         <div class="row">
             <div class="href">
                 <table class="table table-striped table-hover">
@@ -157,12 +146,8 @@
                     {% endfor %}
                     </tbody>
                 </table>
-
             </div>
-
-
         </div>
-
     </div>
 
     <div class="container">
@@ -188,7 +173,6 @@
     <br>
 
 {% endblock %}
-
 {% block title %}
     {{ parent() }} | Liste des sorties
 {% endblock %}
@@ -209,5 +193,37 @@
                     location.reload();
                 });
         }
+    </script>
+
+
+
+    <script>
+        const ripple = el => {
+            let d = el.dataset.ripple.split('-'),
+                s = 'rgba(3,149,229,0.4)',
+                e = 'rgba(3,149,229,1)';
+            d[2] = Number(d[2]) + 4;
+            el.dataset.ripple = d.join('-');
+            el.style.background = `radial-gradient(circle at ${d[0]}px ${d[1]}px, ${s} 0%, ${s} ${d[2]}%, ${e} ${d[2] + 0.1}%)`;
+
+            window.requestAnimationFrame(() => {
+                if (el.dataset.ripple && d[2] < 100) ripple(el)
+            });
+        };
+
+        const start = ev => {
+            ev.target.dataset.ripple = `${ev.offsetX}-${ev.offsetY}-0`
+            ripple(ev.target);
+        };
+
+        const stop = ev => {
+            let el = document.querySelector('[data-ripple]');
+            delete el.dataset.ripple;
+            el.style.background = 'none';
+        };
+
+        // Events
+        document.querySelectorAll('.highlight').forEach( el => el.addEventListener( 'mousedown', start ));
+        document.addEventListener( 'mouseup', stop );
     </script>
 {% endblock %}
