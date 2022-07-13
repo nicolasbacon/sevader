@@ -10,11 +10,26 @@
 
         <div class="row">
             <div class="col-2 edit-form">
-
                 <h4>Modifier mon profil</h4>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col">
+                            <img class="profile-picture" src="{{ asset('assets/img/avatar/' ~ app.user.avatar) }}" alt="">
+
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+
                 {{ include('participant/_form.html.twig', {'button_label': 'Modifier'}) }}
                 <br>
-            <div class="col-sm"></div>
+
+
+            <div class="col-sm">
+
+            </div>
             <div class="col-sm"></div>
             </div>
     </div>

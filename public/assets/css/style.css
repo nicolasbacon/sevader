@@ -211,6 +211,7 @@ color: white;
     border-radius: 5px;
     background-color:rgba(255,255,255,0.6);
     margin: 0 0 0 150px;
+    text-align: center;
 }
 
 /*/////////////////////FORM CONTROL EDIT PAGE///////////////////////////*/
@@ -218,18 +219,18 @@ color: white;
     font-size: 0.8rem;
 
 }
-.fa-facebook-square{
-    margin: 0px -112px 0 0; !important;
-}
 
-.fa-twitter-square{
-    margin: 0 163px 0 0;
-}
 
 .fa-facebook-square:hover{
     color: #fd7e14;
 }
 .fa-twitter-square:hover{
+    color: #fd7e14;
+}
+.fa-linkedin-in:hover{
+    color: #fd7e14;
+}
+.fa-bitcoin:hover{
     color: #fd7e14;
 }
 
@@ -486,4 +487,6 @@ justify-content: space-evenly;
 .highlight:hover:after {
     transition: width 0.1s ease 0.2s, height 0.1s ease 0.3s, visibility 0s 0.2s;
 }
-.badge-profile{}
+.badge-profile{
+
+}
