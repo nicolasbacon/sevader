@@ -462,6 +462,32 @@ justify-content: space-evenly;
         transform: translate(-50%, -50%) rotate(360deg);
     }
 }
+/*///////////////CSS DE LA PAGE CREATION EDIT SORTIE//////////////////////*/
+
+span.marginLeft {
+    margin-left: 10px;
+}
+
+button.btn-creer-sortie {
+    background-color: #2c3034;
+    color: #fcd303;
+}
+
+.background-creer-sortie {
+    background-color: #ffc15a;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+}
+
+body {
+    background-image: url("../img/fond-de-site4.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 /*////////////////////////////////////MANAGE CONTAINER////////////////*/
 .manage-container{
     font-family: 'Manrope', sans-serif;

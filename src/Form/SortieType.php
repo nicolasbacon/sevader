@@ -45,7 +45,10 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom de la sortie : '
+                'label' => 'Nom de la sortie : ',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('ville', EntityType::class, [
                 'mapped' => false,
@@ -53,54 +56,67 @@ class SortieType extends AbstractType
                 'choice_label' => 'nom',
                 'placeholder' => 'Ville',
                 'label' => 'Ville',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => "form-select"
+                ]
             ])
 
             ->add('lieu', ChoiceType::class, [
-                'placeholder' => 'Choisir un lieu',
-                'required' => false
+                'placeholder' => 'Lieu (Choisir une ville)',
+                'required' => false,
+                'attr' => [
+                    'class' => "form-select"
+                ]
             ])
             ->add("addLieu", LieuType::class, [
                 'mapped' => false,
                 'label' => ' ',
                 'required' => false,
-                'attr' => [
-                    'hidden' => true,
-                ]
             ])
 
             ->add('dateHeureDebut', DateTimeType::class, [
                 'label' => 'Date et heure de la sortie : ',
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
-                'html5' => true
+                'html5' => true,
             ])
             ->add('duree', NumberType::class, [
-                'label' => 'Durée de la sortie : '
+                'label' => 'Durée de la sortie : ',
+                'html5' => true,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('dateLimiteInscription', DateType::class, [
                 'label' => 'Date limite d\'inscription : ',
                 'widget' => 'single_text',
-                'html5' => true
+                'html5' => true,
             ])
             ->add('nbInscriptionMax', NumberType::class, [
-                'label' => 'Nombre de places : '
+                'label' => 'Nombre de places : ',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('infosSortie', TextareaType::class, [
-                'label' => 'Descriptions et infos : '
+                'label' => 'Descriptions et infos : ',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('inscriptionAuto', CheckboxType::class, [
                 'label' => 'Voulez-vous vous inscrire à la sortie ? ',
                 'data' => true,
                 'mapped' => false,
-                'required' => false
+                'required' => false,
             ])
             ->add('enregistrer', SubmitType::class, [
-                'attr' => ['class' => 'submit'],
+                'attr' => ['class' => 'btn btn-creer-sortie btn-outline-secondary'],
                 'label' => 'Enregistrer'
             ])
             ->add('publier', SubmitType::class, [
-                'attr' => ['class' => 'submit'],
+                'attr' => ['class' => 'btn btn-creer-sortie btn-outline-secondary'],
                 'label' => 'Publier'
             ])
 
