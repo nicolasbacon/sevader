@@ -57,7 +57,7 @@ class SortieType extends AbstractType
             ])
 
             ->add('lieu', ChoiceType::class, [
-                'placeholder' => 'Lieu (Choisir une ville)',
+                'placeholder' => 'Choisir un lieu',
                 'required' => false
             ])
             ->add("addLieu", LieuType::class, [
@@ -113,7 +113,7 @@ class SortieType extends AbstractType
                 'choices' => $lieux->toArray(),
                 'required' => false,
                 'choice_label' => 'nom',
-                'placeholder' => 'Lieu (Choisir une ville)',
+                'placeholder' => 'Choisir un lieu',
                 'label' => 'Lieu'
             ]);
         };
