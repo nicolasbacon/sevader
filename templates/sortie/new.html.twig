@@ -10,49 +10,181 @@
 {% endblock %}
 
 {% block body %}
-    {% if sortie.id != null %}
-        <h2>Modifier une sortie</h2>
-    {% else %}
-        <h2>Créer une sortie</h2>
-    {% endif %}
-    {{ form_start(sortieForm) }}
-
-    {{ form_row(sortieForm.nom) }}
-    {{ form_row(sortieForm.dateHeureDebut) }}
-    {{ form_row(sortieForm.dateLimiteInscription) }}
-    {{ form_row(sortieForm.nbInscriptionMax) }}
-    {{ form_row(sortieForm.duree) }}  <span>minutes</span>
-    {{ form_row(sortieForm.infosSortie) }}
-    <p>Ville organisatrice : {{ app.user.campus.nom }}</p>
-    <div class="ville">
-        {{ form_row(sortieForm.ville) }}
-    </div>
-    <div class="lieu">
-        {{ form_row(sortieForm.lieu) }}
-        <button id="addLieu" type="button">+</button>
-        {{ form_row(sortieForm.addLieu) }}
-        <div id="infosLieu">
-            <p id="lieuRue">Rue : {{ sortie.lieu.rue |default('') }}</p>
-            <p id="lieuCodePostal">Code Postal : {{ sortie.lieu.ville.codePostal |default('') }}</p>
-            <p id="lieuLatitude">Latitude : {{ sortie.lieu.latitude |default('') }}</p>
-            <p id="lieuLongitude">Longitude : {{ sortie.lieu.longitude |default('') }}</p>
+    <div class="container background-creer-sortie">
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                {% if sortie.id != null %}
+                    <h2>Modifier une sortie</h2>
+                {% else %}
+                    <h2>Créer une sortie</h2>
+                {% endif %}
+            </div>
         </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="row my-3 d-flex">
+                    <div class="col align-self-center">
+                        {{ form_start(sortieForm) }}
+                        {{ form_label(sortieForm.nom) }}
+                    </div>
+                    <div class="col">
+                        {{ form_widget(sortieForm.nom) }}
+                    </div>
+                </div>
+                <div class="row my-3 d-flex">
+                    <div class="col d-flex align-items-center">
+                        {{ form_label(sortieForm.dateHeureDebut) }}
+                    </div>
+                    <div class="col">
+                        <span class="marginLeft">
+                            {{ form_widget(sortieForm.dateHeureDebut) }}
+                        </span>
+                    </div>
+                </div>
+                <div class="row my-3 d-flex">
+                    <div class="col align-self-center">
+                        {{ form_label(sortieForm.dateLimiteInscription) }}
+                    </div>
+                    <div class="col">
+                        <span class="marginLeft">
+                            {{ form_widget(sortieForm.dateLimiteInscription) }}
+                        </span>
+                    </div>
+                </div>
+                <div class="row my-3 d-flex">
+                    <div class="col align-self-center">
+                        {{ form_label(sortieForm.nbInscriptionMax) }}
+                    </div>
+                    <div class="col">
+                        <span class="marginLeft">
+                        {{ form_widget(sortieForm.nbInscriptionMax) }}
+                        </span>
+                    </div>
+                </div>
+                <div class="row my-3 d-flex">
+                    <div class="col align-self-center">
+                        {{ form_label(sortieForm.duree) }}
+                    </div>
+                    <div class="col">
+                        <span class="marginLeft">
+                        {{ form_widget(sortieForm.duree) }} <span>minutes</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row my-3 d-flex">
+                    <div class="col align-self-center">
+                        {{ form_label(sortieForm.infosSortie) }}
+                    </div>
+                    <div class="col">
+                        <span class="marginLeft">
+                        {{ form_widget(sortieForm.infosSortie) }}
+                        </span>
+                    </div>
+                </div>
+                <div class="row my-3 d-flex">
+                    <div class="col align-self-center">
+                        {{ form_label(sortieForm.inscriptionAuto) }}
+                    </div>
+                    <div class="col">
+                        <span class="marginLeft">
+                        {{ form_widget(sortieForm.inscriptionAuto) }}
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col">
+                <div class="row my-3 d-flex">
+                    <div class="col">
+                        Ville organisatrice :
+                    </div>
+                    <div class="col">
+                        <span class="marginLeft">
+                            {{ app.user.campus.nom }}
+                        </span>
+                    </div>
+                </div>
+                <div class="row my-3 d-flex">
+                    <div class="col align-self-center">
+                        {{ form_label(sortieForm.ville) }}
+                    </div>
+                    <div class="col">
+                        <span class="marginLeft">
+                        {{ form_widget(sortieForm.ville) }}
+                        </span>
+                    </div>
+                </div>
+                <div class="row my-3 d-flex">
+                    <div class="col d-flex align-items-center">
+                        {{ form_label(sortieForm.lieu) }}
+                    </div>
+                    <div class="col align-self-center">
+                        <span class="marginLeft">
+                        {{ form_widget(sortieForm.lieu) }}
+                        </span>
+                    </div>
+                    <div class="col-2">
+                        <button id="addLieu" type="button" class="btn btn-creer-sortie">+</button>
+                    </div>
+                </div>
+                <div id="divAddLieu" style="display: none">
+                    <div class="my-3 d-flex">
+                        {{ form_label(sortieForm.addLieu.nom) }}
+                        <span class="marginLeft">
+                        {{ form_widget(sortieForm.addLieu.nom) }}
+                        </span>
+                    </div>
+                    <div class="my-3 d-flex">
+                        {{ form_label(sortieForm.addLieu.rue) }}
+                        <span class="marginLeft">
+                        {{ form_widget(sortieForm.addLieu.rue) }}
+                        </span>
+                    </div>
+                    <div class="my-3 d-flex">
+                        {{ form_label(sortieForm.addLieu.latitude) }}
+                        <span class="marginLeft">
+                        {{ form_widget(sortieForm.addLieu.latitude) }}
+                        </span>
+                    </div>
+                    <div class="my-3 d-flex">
+                        {{ form_label(sortieForm.addLieu.longitude) }}
+                        <span class="marginLeft">
+                        {{ form_widget(sortieForm.addLieu.longitude) }}
+                        </span>
+                    </div>
+                </div>
+                <div id="infosLieu">
+                    <p id="lieuRue">Rue : {{ sortie.lieu.rue |default('') }}</p>
+                    <p id="lieuCodePostal">Code Postal : {{ sortie.lieu.ville.codePostal |default('') }}</p>
+                    <p id="lieuLatitude">Latitude : {{ sortie.lieu.latitude |default('') }}</p>
+                    <p id="lieuLongitude">Longitude : {{ sortie.lieu.longitude |default('') }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-around">
+            <div class="col-auto">
+                {{ form_row(sortieForm.enregistrer) }}
+            </div>
+            <div class="col-auto">
+                {{ form_row(sortieForm.publier) }}
+            </div>
+            {% if sortie.id != null %}
+                <div class="col-auto">
+                    <a href="{{ path('sortie_delete',{'id': sortie.id}) }}">
+                        <button>Supprimer</button>
+                    </a>
+                </div>
+            {% endif %}
+            <div class="col-auto">
+                <a href="{{ path('main_home') }}">
+                    <button class="btn btn-creer-sortie">Annuler</button>
+                </a>
+            </div>
+        </div>
+        {{ form_end(sortieForm) }}
     </div>
-
-    {{ form_row(sortieForm.inscriptionAuto) }}
-    {{ form_row(sortieForm.enregistrer) }}
-    {{ form_row(sortieForm.publier) }}
-
-    {{ form_end(sortieForm) }}
-
-    {% if sortie.id != null %}
-        <a href="{{ path('sortie_delete',{'id': sortie.id}) }}">
-            <button>Supprimer</button>
-        </a>
-    {% endif %}
-    <a href="{{ path('main_home') }}">
-        <button>Annuler</button>
-    </a>
 {% endblock %}
 
 {% block extraJs %}
@@ -102,11 +234,11 @@
             let addLieuVisible = false;
             document.getElementById("addLieu").addEventListener("click", function (evt) {
                 if (addLieuVisible) {
-                    document.getElementById('sortie_addLieu').hidden = true;
+                    document.getElementById('divAddLieu').style.display = 'none';
                     document.getElementById('infosLieu').hidden = false;
                     addLieuVisible = false;
                 } else {
-                    document.getElementById('sortie_addLieu').hidden = false;
+                    document.getElementById('divAddLieu').style.display = '';
                     document.getElementById('infosLieu').hidden = true;
                     addLieuVisible = true;
                 }
