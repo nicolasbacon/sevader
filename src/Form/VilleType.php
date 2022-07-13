@@ -32,7 +32,7 @@ class VilleType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 'label' => false,
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control col-sm-4'],
             ])
             /*->add('nom', ChoiceType::class, [
                 'label' => false,
@@ -42,7 +42,7 @@ class VilleType extends AbstractType
             ])*/
             ->add('codePostal', TextType::class, [
                 'label' => false,
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control col-sm-2'],
 
             ]);
     }
